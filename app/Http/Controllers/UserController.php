@@ -9,7 +9,11 @@ use App\Traits\Permission;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
+
 
 class UserController extends Controller
 {
@@ -28,14 +32,14 @@ class UserController extends Controller
         return view('user.index');
     }
 
-    public function profile(Request $request,User $user)
+    public function profile(Request $request)
     {
-        $user = Auth::User()
-                    ->select('name', 'email', 'language', 'role_id', 'introduce', 'mug_shot')
+        $user = User::select('name', 'email', 'language', 'role_id', 'introduce', 'mug_shot')
+                    ->where('id', Auth::User()->id)
                     ->first()
                     ->makeHidden(['role', 'role_id'])
                     ->toArray();
-        
+
         return new JsonResponse($user);
     }
 
@@ -139,5 +143,38 @@ class UserController extends Controller
             ], 422);
         }
         
+    }
+
+    public function resetpassword(Request $request, User $user)
+    {
+        request()->validate([
+            'email' => [
+                'required',
+                'email',
+                Rule::exists('users')->where(function($query) use($request) {
+                    $query->where('email', $request->email);
+                }) 
+            ],
+            'password' => 'required|string|min:6|confirmed'
+        ]);
+
+        try { 
+
+            $updateUser = User::where('email', $request->email)->first();
+
+            $updateUser->forceFill([
+                'password' => Hash::make($request->password)
+            ])->setRememberToken(Str::random(60));
+            
+            $updateUser->save();
+
+            return new JsonResponse([ 
+                'message' => "$updateUser->name update password successfully" ,
+            ]);
+        } catch (\Throwable $th) {
+            return new JsonResponse([ 
+                'message' => 'Operation fail' . $th
+            ], 422);
+        }
     }
 }

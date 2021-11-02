@@ -18,4 +18,5 @@ return [
     'change_password' => '更換密碼',
     'mug_shot' => '大頭照',
     'user_list' => '使用者列表',
+    'reset_password' => '更換密碼'
 ];

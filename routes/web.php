@@ -30,11 +30,13 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/', 'UserController@index')->name('users.index')->middleware('can:read,App\User');
         Route::get('profile', 'UserController@profile')->name('users.profile')->middleware('can:read,App\User');
         Route::get('list', 'UserController@list')->name('users.list')->middleware('can:superuser,App\User');
-
-        Route::put('{user}', 'UserController@edit')->name('users.edit')->middleware('can:edit,user');
-        Route::put('status/{user}', 'UserController@status')->name('users.status')->middleware('can:superuser,App\User');
-        Route::put('auth/{user}', 'UserController@auth')->name('users.auth')->middleware('can:superuser,App\User');
+       
         Route::POST('image/{user}', 'UserController@image')->name('users.image')->middleware('can:edit,user');
+        
+        Route::put('{user}', 'UserController@edit')->name('users.edit')->middleware('can:edit,user');
+        Route::put('auth/{user}', 'UserController@auth')->name('users.auth')->middleware('can:superuser,App\User');
+        Route::put('status/{user}', 'UserController@status')->name('users.status')->middleware('can:superuser,App\User');
+        Route::put('resetpassword/{user}', 'UserController@resetpassword')->name('users.resetpassword')->middleware('can:edit,user');
 
 
         // Route::get('{user}', 'UserController@show')->name('users.show');
