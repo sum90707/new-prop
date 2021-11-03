@@ -32,16 +32,16 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('list', 'UserController@list')->name('users.list')->middleware('can:superuser,App\User');
        
         Route::POST('image/{user}', 'UserController@image')->name('users.image')->middleware('can:edit,user');
-        
+
         Route::put('{user}', 'UserController@edit')->name('users.edit')->middleware('can:edit,user');
         Route::put('auth/{user}', 'UserController@auth')->name('users.auth')->middleware('can:superuser,App\User');
         Route::put('status/{user}', 'UserController@status')->name('users.status')->middleware('can:superuser,App\User');
         Route::put('resetpassword/{user}', 'UserController@resetpassword')->name('users.resetpassword')->middleware('can:edit,user');
+    });
 
-
-        // Route::get('{user}', 'UserController@show')->name('users.show');
-        // Route::put('{user}', 'UserController@update')->name('users.update');
-        // Route::delete('{user}', 'UserController@destroy')->name('users.destroy');
-        // Route::get('{user}/edit', 'UserController@edit')->name('users.edit');
+    Route::prefix('quesition')->group(function() {
+        Route::get('/', 'QuesitionController@index')->name('quesition.index')->middleware('can:read,App\Quesition');
+        Route::POST('type', 'QuesitionController@type')->name('quesition.type')->middleware('can:create,App\Quesition');
+        Route::POST('create', 'QuesitionController@create')->name('quesition.create')->middleware('can:create,App\Quesition');
     });
 });

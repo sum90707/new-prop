@@ -84,6 +84,7 @@ class FormSave extends AlertMsg {
         this.method = config.method ? config.method : 'GET';
         this.token = config.token;
         this.errorFields = config.errorFields ? config.errorFields : null;
+        this.callback = config.callback ? config.callback : null;
 
         this.$btn.bind('click', function() {
             this.saveForm();
@@ -100,6 +101,7 @@ class FormSave extends AlertMsg {
 			data: this.$form.serializeArray(),
 			success: function success(json, status, xhr) {
                 this.ajaxSussMsg(xhr);
+                this.callback();
 			}.bind(this)
 		}).fail(
             function (xhr) {

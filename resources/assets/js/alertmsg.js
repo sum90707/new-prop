@@ -38,6 +38,18 @@ class AlertMsg {
         });	
     };
 
+    sussMsg(){
+        $.uiAlert({
+            textHead: '',
+            text: 'Operation succeeded',
+            bgcolor: '#19c3aa',
+            textcolor: '#fff',
+            position: 'bottom-right',
+            icon: 'checkmark box',
+            time: 5,	
+        });	
+    };
+
 
     errorsMsg(status, msg = null) {
         $.uiAlert({

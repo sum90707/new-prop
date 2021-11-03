@@ -20,7 +20,8 @@ body > .ui.container {
 	right: 15px;
 }
 
-.profile.ui.card {
+.profile.ui.card,
+.create.ui.card {
     width: 100%;
 }
 .layouts.pushable {

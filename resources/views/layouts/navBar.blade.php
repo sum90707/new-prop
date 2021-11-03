@@ -14,23 +14,11 @@
                     @lang('glob.menu')
                     <i class="dropdown icon"></i>
                     <div class="menu">
-                        @can('access', 'admin|teacher')
-                            <a href="{{ route('quesition.create.page') }}">
+                        @can('read', 'App\Quesition')
+                            <a href="{{ route('quesition.index') }}">
                                 <div class="item">
                                     <i class="file alternate icon"></i>
-                                    @lang('glob.make_out_questions')
-                                </div>
-                            </a>
-                            <a href="{{ route('quesition.admin') }}">
-                                <div class="item">
-                                    <i class="file alternate icon"></i>
-                                    @lang('glob.quesition_list')
-                                </div>
-                            </a>
-                            <a href="{{ route('paper.admin') }}">
-                                <div class="item">
-                                    <i class="file alternate icon"></i>
-                                    @lang('glob.paper_list')
+                                    @lang('quesition.manage')
                                 </div>
                             </a>
                         @endcan
@@ -51,19 +39,6 @@
                         {{ Auth::user()->name }}
                         <i class="dropdown icon"></i>
                         <div class="menu">
-                            {{-- <a href="{{ "" }}">
-                                <div class="item">
-                                    <i class="user circle icon"></i>
-                                    @lang('user.profile')
-                                </div>
-                            </a>
-                            <a href="{{ '' }}">
-                                <div class="item">
-                                    <i class="lock icon"></i>
-                                    @lang('user.change_password')
-                                </div>
-                            </a> --}}
-                            
                             @can('read', 'App\User')
                                 <a href="{{ route('users.index') }}">
                                     <div class="item">
@@ -131,23 +106,11 @@
                     <i class="dropdown icon"></i>
                     </div>
                     <div class="content">
-                        @can('access', 'admin|teacher')
-                            <a href="{{ route('quesition.create.page') }}">
+                        @can('read', 'App\Quesition')
+                            <a href="{{ route('quesition.index') }}">
                                 <div class="item">
                                     <i class="file alternate icon"></i>
-                                    @lang('glob.make_out_questions')
-                                </div>
-                            </a>
-                            <a href="{{ route('quesition.admin') }}">
-                                <div class="item">
-                                    <i class="file alternate icon"></i>
-                                    @lang('glob.quesition_list')
-                                </div>
-                            </a>
-                            <a href="{{ route('paper.admin') }}">
-                                <div class="item">
-                                    <i class="file alternate icon"></i>
-                                    @lang('glob.paper_list')
+                                    @lang('quesition.manage')
                                 </div>
                             </a>
                         @endcan

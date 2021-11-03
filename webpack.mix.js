@@ -18,5 +18,6 @@ mix.js('resources/assets/js/app.js', 'public/js')
    .js('resources/assets/js/copied.js', 'public/js')
    .js('resources/assets/js/toggle.js', 'public/js')
    .js('resources/assets/js/upload.js', 'public/js')
+   .js('resources/assets/js/dynamic.js', 'public/js')
    .js('resources/assets/js/home.js', 'public/js')
    .sass('resources/assets/sass/app.scss', 'public/css');

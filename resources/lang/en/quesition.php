@@ -1,13 +1,15 @@
 <?php
 
 return [
+    'manage' => 'Quesition Manage',
     'quesition' => 'Create Quesition',
     'title_view' => 'Quesition List',
     'id' => 'ID',
+    'name' => 'Name',
     'year' => 'Year',
     'semester' => 'Semester',
     'type' => 'Quesition Type',
-    'quesition' => 'Quesition Text',
+    'introduce' => 'Quesition Text',
     'options' => 'Options',
     'answer' => 'Answer',
     'update' => 'Update No.',
@@ -16,5 +18,9 @@ return [
         'fail' => 'Save Fail. Please contact the system administrator'
     ],
     'operate' => 'Operate',
-    'no_options' => 'No Options'
+    'no_options' => 'No Options',
+    'types' => [
+        0 => 'True False',
+        1 => 'Multiple Choice'
+    ]
 ];

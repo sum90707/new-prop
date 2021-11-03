@@ -104,6 +104,19 @@ var AlertMsg = function () {
             });
         }
     }, {
+        key: 'sussMsg',
+        value: function sussMsg() {
+            $.uiAlert({
+                textHead: '',
+                text: 'Operation succeeded',
+                bgcolor: '#19c3aa',
+                textcolor: '#fff',
+                position: 'bottom-right',
+                icon: 'checkmark box',
+                time: 5
+            });
+        }
+    }, {
         key: 'errorsMsg',
         value: function errorsMsg(status) {
             var msg = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
@@ -17554,6 +17567,7 @@ var FormSave = function (_AlertMsg2) {
         _this2.method = config.method ? config.method : 'GET';
         _this2.token = config.token;
         _this2.errorFields = config.errorFields ? config.errorFields : null;
+        _this2.callback = config.callback ? config.callback : null;
 
         _this2.$btn.bind('click', function () {
             this.saveForm();
@@ -17573,6 +17587,7 @@ var FormSave = function (_AlertMsg2) {
                 data: this.$form.serializeArray(),
                 success: function success(json, status, xhr) {
                     this.ajaxSussMsg(xhr);
+                    this.callback();
                 }.bind(this)
             }).fail(function (xhr) {
                 this.errorAlert(xhr, this.errorFields);

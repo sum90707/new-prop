@@ -104,6 +104,19 @@ var AlertMsg = function () {
             });
         }
     }, {
+        key: 'sussMsg',
+        value: function sussMsg() {
+            $.uiAlert({
+                textHead: '',
+                text: 'Operation succeeded',
+                bgcolor: '#19c3aa',
+                textcolor: '#fff',
+                position: 'bottom-right',
+                icon: 'checkmark box',
+                time: 5
+            });
+        }
+    }, {
         key: 'errorsMsg',
         value: function errorsMsg(status) {
             var msg = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
