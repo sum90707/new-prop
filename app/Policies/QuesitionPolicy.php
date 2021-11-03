@@ -15,9 +15,9 @@ class QuesitionPolicy
      *
      * @return void
      */
-    public function __construct(User $user)
+    public function __construct()
     {
-        $this->model = $user->getTable();
+        $this->model = Quesition::getTableName();
     }
 
     public function before(User $user)
@@ -27,9 +27,12 @@ class QuesitionPolicy
                            ->where('name', $this->model)
                            ->first();
         
-        if ($permission->is_super_user) {
-            // return true;
+        if($permission) {
+            if ($permission->is_super_user) {
+                return true;
+            }
         }
+        
     }
 
     public function superuser(User $user)

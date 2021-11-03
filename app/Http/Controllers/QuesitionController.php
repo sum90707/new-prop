@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use App\Option;
 use App\Quesition;
 use Illuminate\Http\Request;
@@ -13,6 +14,7 @@ class QuesitionController extends Controller
 {
     public function index(Request $request)
     {
+        dd(Auth::User()->can('read', 'App\Quesition'));
         return view('quesition.index');
     }
 
