@@ -14,7 +14,6 @@ class QuesitionController extends Controller
 {
     public function index(Request $request)
     {
-        dd(Auth::User()->can('read', 'App\Quesition'));
         return view('quesition.index');
     }
 
