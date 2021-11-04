@@ -17,5 +17,6 @@ return [
     'introduce' => 'Introduce',
     'change_password' => 'Change password',
     'mug_shot' => 'Mug shot',
-    'user_list' => 'User list'
+    'user_list' => 'User list',
+    'reset_password' => 'Reset password'
 ];

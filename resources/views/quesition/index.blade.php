@@ -13,12 +13,20 @@
     
     <div class="ui top attached tabular menu quesition">
         @can('create', 'App\Quesition')
-            <a class="item active" data-tab="create">@lang('quesition.title_create')</a>
+            <a class="item" data-tab="create">@lang('quesition.title_create')</a>
+        @endcan
+        @can('read', 'App\Quesition')
+            <a class="item active" data-tab="list">@lang('quesition.title_view')</a>
         @endcan
     </div>
     @can('create', 'App\Quesition')
-        <div class="ui bottom attached tab segment active" data-tab="create">
+        <div class="ui bottom attached tab segment" data-tab="create">
             @include('quesition.create')
+        </div>
+    @endcan
+    @can('read', 'App\Quesition')
+        <div class="ui bottom attached tab segment active" data-tab="list">
+            @include('quesition.list')
         </div>
     @endcan
 <script>

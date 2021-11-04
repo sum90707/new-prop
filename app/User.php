@@ -72,7 +72,7 @@ class User extends Authenticatable
         return $authsGroup;
     }
 
-    public static function buildUserList($reqest)
+    public static function buildUserList($request)
     {   
         $list = self::withTrashed()
                     ->select('id', 'name', 'email', 'language' , 'api_token' , 'role_id', 'deleted_at')
@@ -86,6 +86,6 @@ class User extends Authenticatable
                             ->where('is_super_user', false);
                     });
         
-        return self::dataTableSearch($list, $reqest->input(), ['name', 'email'], ['role', 'role_id']);
+        return self::dataTableSearch($list, $request->input(), ['name', 'email'], ['role', 'role_id']);
     }
 }

@@ -84,7 +84,7 @@ class FormSave extends AlertMsg {
         this.method = config.method ? config.method : 'GET';
         this.token = config.token;
         this.errorFields = config.errorFields ? config.errorFields : null;
-        this.callback = config.callback ? config.callback : null;
+        this.callback = config.callback ? config.callback : function() {};
 
         this.$btn.bind('click', function() {
             this.saveForm();

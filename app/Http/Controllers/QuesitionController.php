@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Auth;
+use Lang;
 use App\Option;
 use App\Quesition;
 use Illuminate\Http\Request;
@@ -19,7 +20,7 @@ class QuesitionController extends Controller
 
     public function create(Request $request)
     {
-        
+
         request()->validate([
             'Quesition.name' => 'required|max:30',
             'Quesition.year' => 'required|regex:/^[0-9\s]+$/i',
@@ -28,9 +29,6 @@ class QuesitionController extends Controller
             'Quesition.type' => [Rule::in(array_keys(config('quesition.types')))],
         ]);
 
-
-        
-        
         try {
             $quesition = $request->post('Quesition');
             $options = $request->post('Options');
@@ -51,6 +49,14 @@ class QuesitionController extends Controller
         }
     }
 
+    public function list(Request $request)
+    {
+        $list = Quesition::buildQuesitionList($request);
+        self::translateType($list['data']);
+
+        return $list;
+    }
+
     public function type(Request $request)
     {
         try {
@@ -62,6 +68,42 @@ class QuesitionController extends Controller
             return new JsonResponse([
                 'message' => 'Operation fail'
             ], 400);
+        }
+    }
+
+    public function status(Request $request, $id)
+    {
+        try { 
+            $quesition = Quesition::withTrashed()
+                        ->find($id);
+
+            $quesition->trashed() ? $quesition->restore() : $quesition->delete();
+
+            return new JsonResponse([ 
+                'message' => 'update successfully.',
+                'deleted' => $quesition->trashed()
+            ]);
+                
+        } catch (\Throwable $th) { 
+            return new JsonResponse([ 
+                'message' => 'Operation fail'
+            ], 422);
+        }
+    }
+
+    private static function translateType(&$data)
+    {
+        $type = Lang::get('quesition.types');
+        try {
+            foreach($data as &$row)
+            { 
+                $row['type'] = [
+                    'type' => $row['type'],
+                    'lang' => $type[$row['type']]
+                ];   
+            }
+        } catch (\Throwable $th) {
+                return;
         }
     }
     

@@ -7,18 +7,20 @@
     <div class="twelve wide column">
         <div class="row">
             <div class="twelve wide column left aligned">
-                {{ Form::text('TF[0]', 'X', [
+                {{ Form::text('Options[1][introduce]', 'O', [
                     'id' => 'option-value-one',
                     'readOnly' => true
                 ])}}
+                {{ Form::hidden('Options[1][order]', 1) }}
             </div>
         </div><br>
         <div class="row">
             <div class="twelve wide column left aligned">
-                {{ Form::text('TF[1]', 'O', [
+                {{ Form::text('Options[2][introduce]', 'X', [
                     'id' => 'option-value-two',
                     'readOnly' => true
                 ])}}
+                {{ Form::hidden('Options[2][order]', 2) }}
             </div>
         </div><br>
 
@@ -28,9 +30,11 @@
                     @lang('quesition.answer')
                 </div>
                 <div class="twelve wide column left aligned">
-                    {{ Form::select('Quesition[answer]', array('X', 'O'), '', [
-                        'id' => 'quesition-answer'
-                    ])}}
+                    {{ Form::select('Quesition[answer]', [
+                            1 => 'O',
+                            2 => 'X'
+                        ], 2, ['id' => 'quesition-answer']
+                    )}}
                 </div>
             </div>
         </div>

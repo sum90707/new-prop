@@ -41,7 +41,11 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::prefix('quesition')->group(function() {
         Route::get('/', 'QuesitionController@index')->name('quesition.index')->middleware('can:read,App\Quesition');
+        Route::get('list', 'QuesitionController@list')->name('quesition.list')->middleware('can:read,App\Quesition');
+        
         Route::POST('type', 'QuesitionController@type')->name('quesition.type')->middleware('can:create,App\Quesition');
         Route::POST('create', 'QuesitionController@create')->name('quesition.create')->middleware('can:create,App\Quesition');
+        Route::put('status/{quesition}', 'QuesitionController@status')->name('quesition.status')->middleware('can:delete,App\Quesition');
+        
     });
 });

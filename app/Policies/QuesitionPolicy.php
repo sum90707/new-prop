@@ -114,19 +114,13 @@ class QuesitionPolicy
      * @param  \App\User  $model
      * @return mixed
      */
-    public function delete(User $user, User $model = null)
+    public function delete(User $user)
     {
         $permission = $user->role
                            ->menus
                            ->where('name', $this->model)
                            ->first();
    
-        if($permission AND $permission->delete) {
-            if(!$model) {
-                return true;
-            }
-            return $user->id === $model->id;
-        }
-        return false;
+        return $permission AND $permission->delete;
     }
 }

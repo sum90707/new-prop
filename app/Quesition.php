@@ -20,6 +20,7 @@ class Quesition extends Model
      *
      * @var array
      */
+    protected $dates = ['deleted_at']; 
 
     protected $fillable = [
         'name', 'year', 'type', 'introduce' , 'answer'
@@ -28,6 +29,21 @@ class Quesition extends Model
     public function options()
     {
         return $this->hasMany('App\Option');
+    }
+
+    public static function buildQuesitionList($request)
+    {
+        $list = self::withTrashed()
+                    ->with([
+                        'options' => function($list) {
+                            $list->select('quesition_id', 'order', 'introduce')
+                                 ->orderBy('order', 'ASC');
+                        }
+                    ])
+                    ->select('id', 'name', 'year', 'type', 'introduce', 'answer', 'deleted_at')
+                    ->orderBy('id');
+        
+        return self::dataTableSearch($list, $request->input(), ['id', 'name', 'year']);
     }
 
 }

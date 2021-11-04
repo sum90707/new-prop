@@ -17567,7 +17567,7 @@ var FormSave = function (_AlertMsg2) {
         _this2.method = config.method ? config.method : 'GET';
         _this2.token = config.token;
         _this2.errorFields = config.errorFields ? config.errorFields : null;
-        _this2.callback = config.callback ? config.callback : null;
+        _this2.callback = config.callback ? config.callback : function () {};
 
         _this2.$btn.bind('click', function () {
             this.saveForm();

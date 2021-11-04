@@ -120,19 +120,7 @@
 <script>
 $(function() {
 
-    let fill = {
-            $form : $('#create-quesition'),
-            url : "",
-            token : "{{ csrf_token() }}",
-            data : [],
-            mapList : {
-                name : $('#quesition-name'),
-                year : $('#quesition-year'),
-                type : $('#quesition-type'),
-                introduce : $('#quesition-introduce')
-            }
-        },
-        save = {
+    let save = {
             $btn : $('#quesition-save'),
             $form : $('#create-quesition'),
             url : "{{ route('quesition.create') }}",
@@ -148,7 +136,7 @@ $(function() {
                 $('#create-quesition').trigger("reset");
                 $('#quesition-type').trigger("change");
             }
-        };
+        },
         dynamic = {
             $triggerDom : $('#quesition-type'),
             $fillDom : $('#option-part'),
@@ -157,13 +145,7 @@ $(function() {
             method : "POST"
         };
         new DynamicHTML(dynamic);
-        new FormSave(save)
-    // let formFill = new FormFill(fill),
-    //     formSave = new FormSave(save),
-    //     uploadImage = new UploadImage(upload);
-
-    // formFill.getData();
-
+        new FormSave(save);
 })
     
 
