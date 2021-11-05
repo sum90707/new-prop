@@ -3,6 +3,7 @@
 namespace App;
 
 use Auth;
+use Lang;
 use App\Option;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -43,7 +44,7 @@ class Quesition extends Model
                     ->select('id', 'name', 'year', 'type', 'introduce', 'answer', 'deleted_at')
                     ->orderBy('id');
         
-        return self::dataTableSearch($list, $request->input(), ['id', 'name', 'year']);
+        return self::dataTableSearch($list, $request->input(), ['id', 'name', 'year', 'type', 'introduce']);
     }
 
 }

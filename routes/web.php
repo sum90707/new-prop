@@ -46,6 +46,14 @@ Route::group(['middleware' => 'auth'], function () {
         Route::POST('type', 'QuesitionController@type')->name('quesition.type')->middleware('can:create,App\Quesition');
         Route::POST('create', 'QuesitionController@create')->name('quesition.create')->middleware('can:create,App\Quesition');
         Route::put('status/{quesition}', 'QuesitionController@status')->name('quesition.status')->middleware('can:delete,App\Quesition');
-        
     });
+
+    Route::prefix('paper')->group(function() {
+        Route::get('/', 'PaperController@index')->name('paper.index')->middleware('can:read,App\Paper');
+        Route::POST('create', 'PaperController@create')->name('paper.create')->middleware('can:create,App\Paper');
+
+        Route::get('list', 'PaperController@list')->name('paper.list')->middleware('can:read,App\Paper');
+        Route::put('status/{paper}', 'PaperController@status')->name('paper.status')->middleware('can:delete,App\Paper');
+    });
+
 });

@@ -22,6 +22,14 @@
                                 </div>
                             </a>
                         @endcan
+                        @can('read', 'App\Paper')
+                            <a href="{{ route('paper.index') }}">
+                                <div class="item">
+                                    <i class="file alternate icon"></i>
+                                    @lang('paper.manage')
+                                </div>
+                            </a>
+                        @endcan
                     </div>
                 </div>
             @endguest
@@ -111,6 +119,14 @@
                                 <div class="item">
                                     <i class="file alternate icon"></i>
                                     @lang('quesition.manage')
+                                </div>
+                            </a>
+                        @endcan
+                        @can('read', 'App\Papaer')
+                            <a href="{{ route('paper.index') }}">
+                                <div class="item">
+                                    <i class="file alternate icon"></i>
+                                    @lang('paper.manage')
                                 </div>
                             </a>
                         @endcan

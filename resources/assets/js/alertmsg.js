@@ -73,9 +73,10 @@ class AlertMsg {
 
     processErrorsMsg(xhr, errorFields) {
         $.each(xhr.responseJSON.errors , function(label, msg) {
+            label = label.toLowerCase();
             this.errorsMsg(
                 xhr.status, 
-                msg.shift().replace(label.toLowerCase(), errorFields[label])
+                msg.shift().replace(label, errorFields[label])
             );
         }.bind(this));
     }

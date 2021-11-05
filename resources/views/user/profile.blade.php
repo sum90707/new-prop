@@ -150,8 +150,8 @@ $(function() {
             token : "{{ csrf_token() }}",
             method : 'PUT',
             errorFields : {
-                'User.name' : "@lang('User.name')",
-                'User.language' : "@lang('User.language')",
+                'user.name' : "@lang('User.name')",
+                'user.language' : "@lang('User.language')",
             }
         },
         upload = {

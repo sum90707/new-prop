@@ -73,7 +73,6 @@
                 },
                 {
                     data: 'options',
-                    // className: 'left aligned',
                     render: function (data, type, row) {
                         let options = String();
                         $.each(data, function(index, option) {
@@ -83,7 +82,9 @@
                                         <div class="description">
                                             <div class="ui two column grid ">
                                                 <div class="five wide column center aligned">
-                                                    <div class="ui ${option.order == row.answer ? "green" : ""} label">${option.order}</div>
+                                                    <div class="ui ${option.order == row.answer ? "green" : ""} label">
+                                                        ${option.order}
+                                                    </div>
                                                 </div>
                                                 <div class="five wide column middle aligned">
                                                     ${option.introduce}
@@ -108,11 +109,12 @@
                 Toggle.statusToggle($('.status-checkbox'), function() {
                     $dataTable.draw();
                 });
-                // Toggle.selectToggle($('.auth-select'), function() {
-                //     $dataTable.draw();
-                // });
             }
         });
+
+        setInterval(() => {
+            $dataTable.ajax.reload();
+        }, 10000);
 
     })
      

@@ -20,6 +20,15 @@
       <link rel="stylesheet" type="text/css" href="{{ URL::asset('semantic/alert/Semantic-UI-Alert.css') }}">
       <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/main.css') }}">
       <link rel="stylesheet" href="//cdn.datatables.net/1.10.21/css/dataTables.semanticui.min.css">
+      <!-- Global site tag (gtag.js) - Google Analytics -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q630LEB5JW"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-Q630LEB5JW');
+      </script>
   </head>
   <body>
     <div class="pusher">

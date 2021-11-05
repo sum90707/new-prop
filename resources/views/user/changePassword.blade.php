@@ -91,7 +91,7 @@
             token : "{{ csrf_token() }}",
             method : 'PUT',
             errorFields : {
-                'User.email' : "@lang('user.email')",
+                'user.email' : "@lang('user.email')",
             }
         };
         

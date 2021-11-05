@@ -48,8 +48,10 @@
                                 </div>
                                 <div class="one wide column"></div>
                                 <div class="twelve wide column">
-                                    {{ Form::number('Quesition[year]', 90,[
-                                        'id' => 'quesition-year'
+                                    {{ Form::number('Quesition[year]', '',[
+                                        'id' => 'quesition-year',
+                                        'max' => 112,
+                                        'min' => 60
                                     ]) }}
                                 </div>
                             </div>
@@ -127,10 +129,10 @@ $(function() {
             token : "{{ csrf_token() }}",
             method : 'POST',
             errorFields : {
-                'Quesition.name' : "@lang('quesition.name')",
-                'Quesition.year' : "@lang('quesition.year')",
-                'Quesition.type' : "@lang('quesition.type')",
-                'Quesition.introduce' : "@lang('quesition.introduce')"
+                'quesition.name' : "@lang('quesition.name')",
+                'quesition.year' : "@lang('quesition.year')",
+                'quesition.type' : "@lang('quesition.type')",
+                'quesition.introduce' : "@lang('quesition.introduce')"
             },
             callback : function(){
                 $('#create-quesition').trigger("reset");
