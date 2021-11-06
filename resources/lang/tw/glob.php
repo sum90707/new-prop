@@ -31,4 +31,5 @@ return [
     'operate' => '操作',
     'basic_info' => '基本資料',
     'remark' => '備註',
+    'delete' => '刪除'
 ];

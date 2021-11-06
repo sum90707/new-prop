@@ -18,5 +18,6 @@ return [
     'change_password' => 'Change password',
     'mug_shot' => 'Mug shot',
     'user_list' => 'User list',
-    'reset_password' => 'Reset password'
+    'reset_password' => 'Reset password',
+    'google_login' => 'Login with Google'
 ];

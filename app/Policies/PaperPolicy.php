@@ -83,4 +83,21 @@ class PaperPolicy
         }
         return false;
     }
+
+    public function edit(User $user, Paper $model = null)
+    {
+        
+        $permission = $user->role
+                           ->menus
+                           ->where('name', $this->model)
+                           ->first();
+                           
+        if($permission AND $permission->edit) {
+            if(!$model) {
+                return true;
+            }
+            return $user->id == $model->create_by;
+        }
+        return false;
+    }
 }

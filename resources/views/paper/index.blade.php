@@ -13,20 +13,28 @@
     
     <div class="ui top attached tabular menu quesition">
         @can('create', 'App\Paper')
-            <a class="item active" data-tab="create">@lang('paper.title_create')</a>
+            <a class="item" data-tab="create">@lang('paper.title_create')</a>
         @endcan
         @can('read', 'App\Paper')
             <a class="item" data-tab="list">@lang('paper.list')</a>
         @endcan
+        @can('edit', 'App\Paper')
+            <a class="item active" data-tab="import">@lang('paper.import')</a>
+        @endcan
     </div>
     @can('create', 'App\Paper')
-        <div class="ui bottom attached tab segment active" data-tab="create">
+        <div class="ui bottom attached tab segment" data-tab="create">
             @include('paper.create')
         </div>
     @endcan
     @can('read', 'App\Paper')
         <div class="ui bottom attached tab segment" data-tab="list">
             @include('paper.list')
+        </div>
+    @endcan
+    @can('edit', 'App\Paper')
+        <div class="ui bottom attached tab segment active" data-tab="import">
+            @include('paper.import')
         </div>
     @endcan
 <script>

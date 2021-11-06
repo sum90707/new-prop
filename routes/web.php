@@ -18,6 +18,9 @@ Route::get('local/{lang}', 'LanguageController@switchLang')->name('lang.switch')
 Route::get('/auth', 'Auth\LoginController@showLoginForm')->name('login');
 Route::get('/registerForm', 'Auth\RegisterController@showRegistrationForm')->name('register.page');
 
+Route::get('/google/auth', 'SocialiteController@redirectToProvider')->name('google.login');
+Route::get('/google/auth/callback', 'SocialiteController@handleProviderCallback');
+
 
 Route::post('/login', 'Auth\LoginController@login')->name('login.action');
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout');

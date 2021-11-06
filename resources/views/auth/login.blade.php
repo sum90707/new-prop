@@ -54,11 +54,21 @@
                             </div>
                         </div>
                         <div class="ui">
-                            <button class="ui fluid large teal submit button login-btn">
-                                <i class="sign in alternate icon"></i>
-                                @lang('user.login')
-                            </button>
-    
+
+                            <div class="ui two column grid">
+                                <div class="column">
+                                    <button class="ui fluid large teal submit button login-btn">
+                                        <i class="sign in alternate icon"></i>
+                                        @lang('user.login')
+                                    </button>
+                                </div>
+                                <div class="column">
+                                    <a class="ui fluid large red basic button login-btn" href="{{ route('google.login') }}">
+                                        <i class="google plus g icon"></i>
+                                        @lang('user.google_login')
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </form>

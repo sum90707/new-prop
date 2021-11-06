@@ -9,5 +9,7 @@ return [
     'id' => '編號',
     'create_by' => '建立者',
     'introduce' => '說明',
-    'list' => '清單'
+    'import' => '匯入',
+    'list' => '清單',
+    'selected' => '已選擇'
 ];
