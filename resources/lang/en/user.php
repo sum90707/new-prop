@@ -8,7 +8,7 @@ return [
     'password_confirmation' => 'Confirm Password',
     'register' => 'Register',
     'login_fail' => 'Login fail please check your username and password',
-    'profile' => 'Profile',
+    'profile' => 'Profile',
     'auth' => 'Auth',
     'last_login' => 'Last Login',
     'language' => 'Language',
@@ -19,5 +19,5 @@ return [
     'mug_shot' => 'Mug shot',
     'user_list' => 'User list',
     'reset_password' => 'Reset password',
-    'google_login' => 'Login with Google'
+    'google_login' => 'Login'
 ];

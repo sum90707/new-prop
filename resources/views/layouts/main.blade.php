@@ -45,11 +45,11 @@
       @yield('content')
     </div>
     
-    {{-- <div class="ui  vertical footer segment prop-footer">
+    <div class="ui vertical footer segment prop-footer">
       <div class="ui center aligned container">
         Copyright © 2021 Powered by HL. All rights reserved.
       </div>
-    </div> --}}
+    </div>
     
   </body>
 </html>

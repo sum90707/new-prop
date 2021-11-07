@@ -1,52 +1,45 @@
 @extends('layouts.main')
 
 @section('content')
-
   
-    <div class="ui vertical stripe segment" id="main-content">
-    <div class="banner-group" >
-      <div class="row" id="img-group">
-          <img  src="%%IMG_URL%%" width="100%" id="%%index%%">
-      </div>
-  
-      <div class="change-banner" id="right"><input type="button" value="❯"> </div>
-      <div class="change-banner" id="left"><input type="button" value="❮"> </div>
-    </div>
-    </div>
-
-
-  <div class="ui two column centered grid" style="margin: auto">
-    <div class="ours-teacher ui link cards four wide row" >
-      
-      @foreach ($teachers as $teacher)
-        <div class="card teacher-card">
-
-          <div class="image">
-            <img src="{{ asset('upload/') }}/{{ $teacher->mug_shot ? $teacher->id .'/'. $teacher->mug_shot : 'teacher.png' }}">
-          </div>
-
-          <div class="content">
-            <div class="header">{{ $teacher->name }}</div>
-            <div class="description">{{ $teacher->introduce }}</div>
-          </div>
-          <div class="extra content">
-            <span class="right floated">
-              {{ date( "Y/m/d", strtotime($teacher->created_at)) }} 
-              @lang('glob.join_at')
-            </span>
-          </div>
-          
+    <div class="ui vertical stripe segment">
+      <div class="banner-group" >
+        <div class="row" id="img-group">
+            <img  src="{{ URL::asset('upload/systemImage/testBanner.png') }}" width="100%" id="%%index%%">
         </div>
-      @endforeach
-      
+      </div>
     </div>
-</div>
+
+
+    
+
+
+  <div class="ui one column centered grid" style="margin-top: 5%">
+    <div class="ui card">
+      <div class="image">
+        <img src="{{ URL::asset('upload/1/shot.png') }}">
+      </div>
+      <div class="content">
+        <div class="header">開發者</div>
+      </div>
+      <div class="content">
+        <div class="meta">
+          <span class="date"> Henry Lin</span><br>
+          <span class="date"> Birthday :  06/03 </span><br>
+          <span class="date"> Job :  Full-stack Developer </span><br>
+        </div>
+        <div class="description">
+          <span>期望這個網站</span><br>
+          <span>能夠變成一個能夠幫助教師們</span><br>
+          <span>解決出試題困難的一個工具</span>
+        </div>
+      </div>
+    </div>
+  </div>
     
 
 
 
 <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/home.css') }}">
-<script type="text/javascript" src="{{ URL::asset('js/jquery.cycle.all.js') }}"></script>
-<script type="text/javascript" src="{{ URL::asset('js/home.js') }}"></script>
 
 @endsection

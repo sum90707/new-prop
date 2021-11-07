@@ -1,6 +1,6 @@
 <?php 
 return [
-    'slogan' => 'English',
+    'slogan' => 'Artisan English',
     'home' => 'Home',
     'about' => 'About',
     'langSelect' => 'Language',

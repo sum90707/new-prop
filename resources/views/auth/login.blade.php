@@ -53,8 +53,8 @@
                             <input type="password" name="password" placeholder="@lang('user.password')">
                             </div>
                         </div>
-                        <div class="ui">
 
+                        <div class=" field">
                             <div class="ui two column grid">
                                 <div class="column">
                                     <button class="ui fluid large teal submit button login-btn">
@@ -63,13 +63,21 @@
                                     </button>
                                 </div>
                                 <div class="column">
-                                    <a class="ui fluid large red basic button login-btn" href="{{ route('google.login') }}">
+                                    <a class="ui fluid large google plus button" href="{{ route('google.login') }}">
                                         <i class="google plus g icon"></i>
                                         @lang('user.google_login')
                                     </a>
                                 </div>
                             </div>
                         </div>
+
+                        <div class=" field">
+                            <a class="ui fluid large gray button login-btn" href="{{ route('google.login') }}">
+                                <i class="registered icon"></i>
+                                @lang('user.register')
+                            </a>
+                        </div>
+
                     </div>
                 </form>
             </div>

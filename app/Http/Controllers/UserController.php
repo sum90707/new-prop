@@ -74,14 +74,7 @@ class UserController extends Controller
     }
 
     public function image(Request $request, User $user)
-    {  
-        request()->validate([
-            'image' => ['required',
-                        'image',
-                        'max:2048',
-                        'mimes:jpeg,png,jpg,gif,svg,jpeg'],
-        ]);
-        
+    {   
         try {
 
             $imageName = md5(time() . rand(0,9999)) . '.' . request()->image->getClientOriginalExtension();

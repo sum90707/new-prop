@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'slogan' => '商標',
+    'slogan' => 'Artisan English',
     'home' => '首頁',
     'about' => '關於我們',
     'langSelect' => '語言',

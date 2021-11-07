@@ -7,7 +7,7 @@
         <!--Start: Desktop Nav-->
         <div class="computer only row">
             <a class="header item" href="{{ route('home') }}">@lang('glob.slogan')</a>
-            <a class="item" href="{{ route('home') }}" >@lang('glob.home')</a>
+            <a class="item" href="{{ route('login') }}" >@lang('glob.home')</a>
             @guest
             @else
                 <div class="ui dropdown item">
@@ -36,12 +36,7 @@
             
             <div class="right menu">
                 @guest
-                    <div class="item">
-                        <a href="{{ route('login') }}" >@lang('glob.login')</a>
-                    </div>
-                    <div class="item">
-                        <a class="mini ui blue button" href="{{ route('register.page') }}" >@lang('glob.signup')</a>
-                    </div>
+                    
                 @else
                     <div class="ui dropdown item">
                         {{ Auth::user()->name }}
@@ -58,7 +53,10 @@
                         </div>
                     </div>
                     <div class="item">
-                        <a class="mini ui blue button" href="{{ route('logout') }}" >@lang('glob.logout')</a>
+                        <a class="ui icon button login-btn" href="{{ route('logout') }}" style="background-color: darkgray">
+                            <i class="share square icon"></i>
+                            @lang('glob.logout')
+                        </a>
                     </div>
                 @endguest
 
@@ -97,14 +95,6 @@
         </div>
 
         <div class="ui vertical accordion borderless fluid menu">
-            {{-- <!-- Start: Search -->
-            <div class="item">
-            <div class="ui icon input">
-                <input type="text" placeholder="Search...">
-                <i class="search link icon"></i>
-            </div>
-            </div>
-            <!-- End: Search --> --}}
             <a class="active item">@lang('glob.home')</a>
             @guest
             @else
@@ -136,12 +126,7 @@
             <div class="ui divider"></div>
 
             @guest
-                <div class="item">
-                    <a href="{{ route('login') }}" >@lang('glob.login')</a>
-                </div>
-                <div class="item">
-                    <a class="mini ui blue button" href="{{ route('register.page') }}" >@lang('glob.signup')</a>
-                </div>
+                
             @else
                 <div class="item">
                     <div class="title">
@@ -149,18 +134,6 @@
                         <i class="dropdown icon"></i>
                     </div>
                     <div class="content">
-                        {{-- <a href="{{ "" }}">
-                            <div class="item">
-                                <i class="user circle icon"></i>
-                                @lang('user.profile')
-                            </div>
-                        </a>
-                        <a href="{{ '' }}">
-                            <div class="item">
-                                <i class="lock icon"></i>
-                                @lang('user.change_password')
-                            </div>
-                        </a> --}}
                         @can('read', 'App\User')
                             <a href="{{ route('users.index') }}">
                                 <div class="item">
@@ -172,7 +145,10 @@
                     </div>
                 </div>
                 <div class="item">
-                    <a class="mini ui blue button" href="{{ route('logout') }}" >@lang('glob.logout')</a>
+                    <a class="ui icon button login-btn" href="{{ route('logout') }}" style="background-color: darkgray">
+                        <i class="share square icon"></i>
+                        @lang('glob.logout')
+                    </a>
                 </div>
             @endguest
 

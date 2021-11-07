@@ -11,11 +11,10 @@
 |
 */
 
-Route::get('/', 'HomeController@index')->name('home');
+Route::get('/', 'Auth\LoginController@showLoginForm')->name('login');
 Route::get('local/{lang}', 'LanguageController@switchLang')->name('lang.switch');
 
 
-Route::get('/auth', 'Auth\LoginController@showLoginForm')->name('login');
 Route::get('/registerForm', 'Auth\RegisterController@showRegistrationForm')->name('register.page');
 
 Route::get('/google/auth', 'SocialiteController@redirectToProvider')->name('google.login');
@@ -27,7 +26,7 @@ Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 Route::post('/register', 'Auth\RegisterController@register')->name('register');
 
 Route::group(['middleware' => 'auth'], function () {
-
+    Route::get('/home', 'HomeController@index')->name('home');
     Route::prefix('user')->group(function() {
 
         Route::get('/', 'UserController@index')->name('users.index')->middleware('can:read,App\User');
