@@ -1,11 +1,11 @@
 body {
-    height: 130%;
+    height: 100%;
 }
 
 .ui.main.container {
     width: 90%;
-    height: auto;
-    margin-bottom: 6em;
+    min-height: 100%;
+    padding-bottom: 100px; 
 }
 
 body > .ui.container {
@@ -108,4 +108,9 @@ body .pusher{
 
 .dataTable select.ui.dropdown {
     height: 80%;
+}
+
+.footer {
+    position: fixed;
+    bottom: 0px;
 }
