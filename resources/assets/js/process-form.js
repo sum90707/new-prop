@@ -85,6 +85,7 @@ class FormSave extends AlertMsg {
         this.token = config.token;
         this.errorFields = config.errorFields ? config.errorFields : null;
         this.callback = config.callback ? config.callback : function() {};
+        this.before = config.before ? config.before : function() {};
 
         this.$btn.bind('click', function() {
             this.saveForm();
@@ -92,6 +93,7 @@ class FormSave extends AlertMsg {
     }
 
     saveForm() {
+        this.before();
         $.ajax({
 			url: this.url,
 			type: this.method,

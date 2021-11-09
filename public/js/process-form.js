@@ -17569,6 +17569,7 @@ var FormSave = function (_AlertMsg2) {
         _this2.token = config.token;
         _this2.errorFields = config.errorFields ? config.errorFields : null;
         _this2.callback = config.callback ? config.callback : function () {};
+        _this2.before = config.before ? config.before : function () {};
 
         _this2.$btn.bind('click', function () {
             this.saveForm();
@@ -17579,6 +17580,7 @@ var FormSave = function (_AlertMsg2) {
     _createClass(FormSave, [{
         key: 'saveForm',
         value: function saveForm() {
+            this.before();
             $.ajax({
                 url: this.url,
                 type: this.method,

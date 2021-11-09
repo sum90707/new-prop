@@ -64,7 +64,7 @@
                                 </div>
                                 <div class="column">
                                     <a class="ui fluid large google plus button" href="{{ route('google.login') }}">
-                                        <i class="google plus g icon"></i>
+                                        <i class="google icon"></i>
                                         @lang('user.google_login')
                                     </a>
                                 </div>

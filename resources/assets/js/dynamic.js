@@ -40,32 +40,4 @@ class DynamicHTML extends AlertMsg {
     }
 }
 
-class DynamicClone extends AlertMsg { 
-    constructor(config) {
-        super();
-        this.$triggerDom = config.$triggerDom;
-        this.$fillDom = config.$fillDom;
-        this.$cloneDom = config.$cloneDom;
-        this.tiggerEvent = config.evnet ? config.evnet : 'click';
-
-        this.$triggerDom.on(this.tiggerEvent, function() {
-            this.trigger();
-        }.bind(this));
-    }
-    
-    static cloneDom(cloneForm, appendTo) {
-        dom = cloneForm.clone();
-        appendTo.append(dom)
-    }
-
-    trigger() {
-        dom = this.$cloneDom.clone();
-        this.$fillDom.append(dom);
-    }
-
-    
-}
-
-
 window.DynamicHTML = DynamicHTML;
-window.DynamicClone = DynamicClone;

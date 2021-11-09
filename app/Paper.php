@@ -30,6 +30,16 @@ class Paper extends Model
         return $this->hasOne('App\User', 'id', 'create_by');
     }
 
+    public function scopeVisible($query)
+    {
+        if(Auth::User()->can('superuser', Paper::class)) {
+            return $query;
+        }
+
+        return $query->where('create_by', Auth::id());
+        
+    }
+
     public static function buildPaperList($request)
     {
         $user = Auth::User();

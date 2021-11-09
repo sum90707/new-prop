@@ -1,6 +1,7 @@
 <script defer type="text/javascript" src="{{ URL::asset('js/upload.js') }}"></script>
 <script defer type="text/javascript" src="{{ URL::asset('js/process-form.js') }}"></script>
-<script defer type="text/javascript" src="{{ URL::asset('js/dynamic.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
 <style>
     .button-row {
         padding-top: 2rem;
@@ -40,29 +41,53 @@
 
 
         <div class="eight wide column">
-            {{ Form::open(array( 'method' => 'post', 'class' => 'ui form', 'id' => 'selected')) }}
+           
                 <div class="select ui card fluid">
 
                     <div class="content center aligned">
                         <div class="header">
                             @lang('paper.selected')
                         </div>
-                    </div>
+                    </div> 
 
                     <div class="content">
-                        <table class="ui celled striped table center aligned" id="quesition-selected" width="100%" >        
-                            <thead>
-                                <tr>
-                                    <th class="four wide">@lang('quesition.info')</th>
-                                    <th class="ten wide">@lang('quesition.introduce')</th>
-                                    <th class="two wide">@lang('glob.delete')</th>
-                                </tr>
-                            </thead>
-                        </table>
+                        <div class="ui two column grid">
+                            <div class="five wide column middle aligned center aligned">
+                                @lang('paper.paper_select')
+                            </div>
+                            <div class="ten wide column">
+                                <select class="ui fluid search dropdown papers-select" id="papers-select">
+                                   
+                                </select>
+                            </div>
+                        </div>
                     </div>
-
+                    {{ Form::open(array( 'method' => 'post', 'class' => 'ui form', 'id' => 'selected')) }}
+                        <div class="content">
+                            <table class="ui celled striped table center aligned" id="quesition-selected" width="100%" >        
+                                <thead>
+                                    <tr>
+                                        <th class="four wide">@lang('quesition.info')</th>
+                                        <th class="ten wide">@lang('quesition.introduce')</th>
+                                        <th class="two wide">@lang('glob.delete')</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    {{ Form::close() }}
                 </div>
-            {{ Form::close() }}
+            
+
+            @can('edit', 'App\Paper')
+                <div class="row button-row">
+                    <div>
+                        <button class="ui green button right floated" id="quesition-selected-save">
+                            <i class="save icon icon"></i>
+                            @lang('glob.save')
+                        </button>
+                    </div>
+                </div>
+            @endcan
         </div>
         
     </div>
@@ -73,9 +98,80 @@
     $(function() {
 
         let route = {
-            list : "{{ route('quesition.list') }}"
-        }
+            list : "{{ route('quesition.list') }}",
+            quesition : "{{ route('quesition.get', ['quesition' => '__DATA__' ]) }}",
+            dropdown : "{{ route('paper.dropdwon') }}",
+            selectSave : "{{ route('paper.selected', ['paper' => '__DATA__']) }}"
+        },
+        template =  `
+            <tr><td class=" left aligned">
+                @lang('quesition.name') : __ID__<br>
+                @lang('quesition.name') : __NAME__<br>
+                @lang('quesition.year') : __YEAR__<br>
+                @lang('quesition.type') : __TYPE__</td>
+                <td class="sorting_1">
+                    __INTRODUCE__
+                </td>
+                <td>
+                    <div class="mini ui red button remove-btn">
+                        <i class="remove icon"></i>
+                    </div>
+                </td>
+                <input type="hidden" name="Quesition[id][__ID__]" value="__ID__">
+            </tr>
+        `,
+        config = {
+            url : route.quesition,
+            token : "{{ csrf_token() }}",
+            data : 'id',
+            template : template,
+            callback : function(json, config) {
+                $.each(json.data, function(index, quesition) {
+                    $('#quesition-selected').append(
+                        stringReplace(config.template, {
+                            '__ID__' : quesition.id,
+                            '__NAME__' : quesition.name,
+                            '__YEAR__' : quesition.year,
+                            '__TYPE__' : quesition.type.lang,
+                            '__INTRODUCE__' : quesition.introduce
+                        })
+                    );
+                });
 
+                $('.remove-btn').unbind('click').bind('click', function() {
+                    $(this).closest('tr').remove();
+                });
+            }
+        },
+        dropdwonConfig = {
+            url : route.dropdown,
+            token : "{{ csrf_token() }}",
+            callback : function(json, config) {
+                $('.papers-select').dropdown('setup menu', json);
+                $('.papers-select').dropdown('set selected', json.values[0].value);
+                
+            }
+        },
+        save = {
+            $btn : $('#quesition-selected-save'),
+            $form : $('#selected'),
+            url : route.selectSave,
+            token : "{{ csrf_token() }}",
+            method : 'POST',
+            errorFields : {
+                'quesition.paper_id' : "@lang('paper.paper_select')",
+                'quesition.id' : "@lang('quesition.introduce')"
+            },
+            before : function() {
+                this.url = stringReplace(this.url,{
+                    '__DATA__' : $('.papers-select').find('.selected').data('value')
+                });
+            },
+            callback : function(){
+                $('#quesition-selected').html('');
+                $('#selected').trigger("reset");
+            }
+        };
 
         let $dataTable = $('#quesition-list').DataTable({
             autoWidth: false,
@@ -121,13 +217,16 @@
             ],
             drawCallback: function() {
                 $('#quesition-list thead th').removeClass('left');
-
                 $('.import-btn').on('click', function() {
-                    DynamicClone.cloneDom($(this).closest('tr'), $('#quesition-selected'))
+                    triggerAJAX(config, $(this));
                 })
             }   
         });
+        
+        new FormSave(save);
 
-    })
-     
+        triggerAJAX(dropdwonConfig);
+        
+
+    });
 </script>

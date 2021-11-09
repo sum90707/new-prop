@@ -89,6 +89,23 @@ window.stringReplace = function (path, parameters) {
 	return path;
 };
 
+window.triggerAJAX = function (config, $this) {
+
+	url = config.data ? stringReplace(config.url, { '__DATA__': $this.data(config.data) }) : config.url;
+
+	$.ajax({
+		url: url ? url : config.url,
+		type: config.method ? config.method : 'GET',
+		headers: {
+			'X-CSRF-TOKEN': config.token
+		},
+		data: config.postData ? config.postData : {},
+		success: function success(json, status, xhr) {
+			config.callback(json, config);
+		}
+	}).fail(function (xhr) {});
+};
+
 /***/ })
 
 /******/ });

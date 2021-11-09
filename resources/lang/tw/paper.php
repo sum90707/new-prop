@@ -11,5 +11,6 @@ return [
     'introduce' => '說明',
     'import' => '匯入',
     'list' => '清單',
-    'selected' => '已選擇'
+    'selected' => '已選擇',
+    'paper_select' => '試卷選擇'
 ];

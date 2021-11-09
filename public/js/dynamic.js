@@ -244,44 +244,7 @@ var DynamicHTML = function (_AlertMsg) {
     return DynamicHTML;
 }(AlertMsg);
 
-var DynamicClone = function (_AlertMsg2) {
-    _inherits(DynamicClone, _AlertMsg2);
-
-    function DynamicClone(config) {
-        _classCallCheck(this, DynamicClone);
-
-        var _this2 = _possibleConstructorReturn(this, (DynamicClone.__proto__ || Object.getPrototypeOf(DynamicClone)).call(this));
-
-        _this2.$triggerDom = config.$triggerDom;
-        _this2.$fillDom = config.$fillDom;
-        _this2.$cloneDom = config.$cloneDom;
-        _this2.tiggerEvent = config.evnet ? config.evnet : 'click';
-
-        _this2.$triggerDom.on(_this2.tiggerEvent, function () {
-            this.trigger();
-        }.bind(_this2));
-        return _this2;
-    }
-
-    _createClass(DynamicClone, [{
-        key: 'trigger',
-        value: function trigger() {
-            dom = this.$cloneDom.clone();
-            this.$fillDom.append(dom);
-        }
-    }], [{
-        key: 'cloneDom',
-        value: function cloneDom(cloneForm, appendTo) {
-            dom = cloneForm.clone();
-            appendTo.append(dom);
-        }
-    }]);
-
-    return DynamicClone;
-}(AlertMsg);
-
 window.DynamicHTML = DynamicHTML;
-window.DynamicClone = DynamicClone;
 
 /***/ })
 

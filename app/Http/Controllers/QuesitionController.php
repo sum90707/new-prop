@@ -91,6 +91,17 @@ class QuesitionController extends Controller
         }
     }
 
+    public function get(Request $request, Quesition $quesition)
+    {
+        
+        $quesition = array($quesition->toArray());
+        self::translateType($quesition);
+
+        return new JsonResponse([ 
+            'data' => $quesition
+        ]);
+    }
+
     private static function translateType(&$data)
     {
         $type = Lang::get('quesition.types');

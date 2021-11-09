@@ -2,7 +2,7 @@
 <!--Start: Nav  -->
 <div class="ui fixed borderless huge menu">
 
-    <div class="ui container grid">
+    <div class="ui container grid nav-bar">
         
         <!--Start: Desktop Nav-->
         <div class="computer only row">
