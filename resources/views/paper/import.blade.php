@@ -101,7 +101,8 @@
             list : "{{ route('quesition.list') }}",
             quesition : "{{ route('quesition.get', ['quesition' => '__DATA__' ]) }}",
             dropdown : "{{ route('paper.dropdwon') }}",
-            selectSave : "{{ route('paper.selected', ['paper' => '__DATA__']) }}"
+            selectSave : "{{ route('paper.selected', ['paper' => '__DATA__']) }}",
+            getSelected : "{{ route('paper.getSelected', ['paper' => '__DATA__']) }}"
         },
         template =  `
             <tr><td class=" left aligned">
@@ -143,12 +144,54 @@
                 });
             }
         },
+        get = {
+            url : route.getSelected,
+            token : "{{ csrf_token() }}",
+            method : 'GET',
+            template : template,
+            before : function() {
+                let value = $('.papers-select').find('.selected').data('value')
+                if(value) {
+                    this.url = stringReplace(route.getSelected, {
+                        '__DATA__' : value
+                    });
+                }
+                
+            },
+            callback : function(json, config) {
+                $('#quesition-selected').html('');
+                $.each(json.data, function(index, quesition) {
+                    $('#quesition-selected').append(
+                        stringReplace(config.template, {
+                            '__ID__' : quesition.id,
+                            '__NAME__' : quesition.name,
+                            '__YEAR__' : quesition.year,
+                            '__TYPE__' : quesition.type,
+                            '__INTRODUCE__' : quesition.introduce
+                        })
+                    );
+                });
+
+                $('.remove-btn').unbind('click').bind('click', function() {
+                    $(this).closest('tr').remove();
+                });
+            }
+        }
         dropdwonConfig = {
             url : route.dropdown,
             token : "{{ csrf_token() }}",
             callback : function(json, config) {
                 $('.papers-select').dropdown('setup menu', json);
                 $('.papers-select').dropdown('set selected', json.values[0].value);
+                triggerAJAX(get);
+                $('.papers-select').dropdown({
+                    onChange: function(value, text, $selectedItem) {
+                        get.url = stringReplace(route.getSelected, {
+                            '__DATA__' : value
+                        });
+                        triggerAJAX(get);
+                    }
+                });
                 
             }
         },
@@ -170,6 +213,7 @@
             callback : function(){
                 $('#quesition-selected').html('');
                 $('#selected').trigger("reset");
+                triggerAJAX(get);
             }
         };
 

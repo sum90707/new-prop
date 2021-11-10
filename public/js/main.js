@@ -89,9 +89,12 @@ window.stringReplace = function (path, parameters) {
 	return path;
 };
 
-window.triggerAJAX = function (config, $this) {
+window.triggerAJAX = function (config) {
+	var $this = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
-	url = config.data ? stringReplace(config.url, { '__DATA__': $this.data(config.data) }) : config.url;
+
+	url = config.data ? stringReplace(config.url, { '__DATA__': $this.data(config.data) }) : null;
+	config.before ? config.before() : function () {};
 
 	$.ajax({
 		url: url ? url : config.url,

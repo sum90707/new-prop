@@ -55,6 +55,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/', 'PaperController@index')->name('paper.index')->middleware('can:read,App\Paper');
         Route::POST('create', 'PaperController@create')->name('paper.create')->middleware('can:create,App\Paper');
         Route::POST('selected/{paper}', 'PaperController@selected')->name('paper.selected')->middleware('can:edit,paper');
+        Route::get('selected/{paper}', 'PaperController@getSelected')->name('paper.getSelected')->middleware('can:edit,paper');
 
         Route::get('dropdwon', 'PaperController@dropdwon')->name('paper.dropdwon')->middleware('can:read,App\Paper');
         Route::get('list', 'PaperController@list')->name('paper.list')->middleware('can:read,App\Paper');

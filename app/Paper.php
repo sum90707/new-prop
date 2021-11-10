@@ -22,7 +22,7 @@ class Paper extends Model
 
     public function quesitions()
     {
-        return $this->belongsToMany('App\Quesition', 'paper_quesition');
+        return $this->belongsToMany('App\Quesition', 'paper_quesition')->withTimestamps();
     }
 
     public function createBy()

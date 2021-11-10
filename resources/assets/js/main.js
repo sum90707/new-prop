@@ -12,9 +12,10 @@ window.stringReplace = function (path, parameters) {
 	return path;
 }
 
-window.triggerAJAX = function (config, $this) {
+window.triggerAJAX = function (config, $this = null) {
 	
-	url =  config.data ? stringReplace(config.url, {'__DATA__' : $this.data(config.data)}) : config.url
+	url =  config.data ? stringReplace(config.url, {'__DATA__' : $this.data(config.data)}) : null
+	config.before ? config.before() : function() {};
 	
 	$.ajax({
 		url: url ? url : config.url,

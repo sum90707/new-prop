@@ -93,7 +93,7 @@ class PaperController extends Controller
         request()->validate([
             'Quesition.id' => 'required'
         ]);
-        
+
         $ids = array_unique($request->post('Quesition')['id']);
     
         try {
@@ -101,6 +101,20 @@ class PaperController extends Controller
             
             return new JsonResponse([ 
                 'message' => 'save quesitions successfully.'
+            ]);
+         } catch (\Throwable $th) {
+            return new JsonResponse([ 
+                'message' => 'Operation fail !' . $th->getMessage()
+            ], 422);
+        }
+    }
+
+    public function getSelected(Request $request,Paper $paper)
+    {
+        try {
+            return new JsonResponse([ 
+                'message' => 'save quesitions successfully.',
+                'data' => $paper->quesitions
             ]);
          } catch (\Throwable $th) {
             return new JsonResponse([ 
