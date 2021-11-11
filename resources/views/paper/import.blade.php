@@ -1,7 +1,4 @@
-<script defer type="text/javascript" src="{{ URL::asset('js/upload.js') }}"></script>
-<script defer type="text/javascript" src="{{ URL::asset('js/process-form.js') }}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
+
 <style>
     .button-row {
         padding-top: 2rem;

@@ -1,6 +1,5 @@
 
-<script defer type="text/javascript" src="{{ URL::asset('js/copied.js') }}"></script>
-<script defer type="text/javascript" src="{{ URL::asset('js/toggle.js') }}"></script>
+
 <table class="ui celled striped table center aligned paper-list" width="100%" >        
     <thead>
         <tr>

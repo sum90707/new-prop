@@ -15,7 +15,6 @@ class Paper extends Model
     use DataTableSearch;
     use EloquentGetTableNameTrait;
 
-
     protected $fillable = [
         'name', 'introduce' 
     ];

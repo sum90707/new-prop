@@ -3,7 +3,11 @@
 @section('title',  __('paper.manage'))
 
 @section('content')
-
+<script defer type="text/javascript" src="{{ URL::asset('js/copied.js') }}"></script>
+<script defer type="text/javascript" src="{{ URL::asset('js/toggle.js') }}"></script>
+<script defer type="text/javascript" src="{{ URL::asset('js/upload.js') }}"></script>
+<script defer type="text/javascript" src="{{ URL::asset('js/process-form.js') }}"></script>
+<script defer type="text/javascript" src="{{ URL::asset('js/dynamic.js') }}"></script>
     <div>
         <h2 class="ui icon header aligned">
             <i class="file icon"></i>
@@ -19,7 +23,10 @@
             <a class="item" data-tab="list">@lang('paper.list')</a>
         @endcan
         @can('edit', 'App\Paper')
-            <a class="item active" data-tab="import">@lang('paper.import')</a>
+            <a class="item " data-tab="import">@lang('paper.import')</a>
+        @endcan
+        @can('edit', 'App\Paper')
+            <a class="item active" data-tab="multi">@lang('paper.multi_import')</a>
         @endcan
     </div>
     @can('create', 'App\Paper')
@@ -33,8 +40,13 @@
         </div>
     @endcan
     @can('edit', 'App\Paper')
-        <div class="ui bottom attached tab segment active" data-tab="import">
+        <div class="ui bottom attached tab segment " data-tab="import">
             @include('paper.import')
+        </div>
+    @endcan
+    @can('edit', 'App\Paper')
+        <div class="ui bottom attached tab segment active" data-tab="multi">
+            @include('paper.multi')
         </div>
     @endcan
 <script>

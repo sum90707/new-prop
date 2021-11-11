@@ -1,6 +1,4 @@
-<script defer type="text/javascript" src="{{ URL::asset('js/upload.js') }}"></script>
-<script defer type="text/javascript" src="{{ URL::asset('js/process-form.js') }}"></script>
-<script defer type="text/javascript" src="{{ URL::asset('js/dynamic.js') }}"></script>
+
 <style>
     .button-row {
         padding-top: 2rem;

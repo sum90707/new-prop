@@ -72,7 +72,7 @@
                         </div>
 
                         <div class=" field">
-                            <a class="ui fluid large gray button login-btn" href="{{ route('google.login') }}">
+                            <a class="ui fluid large gray button login-btn" href="{{ route('register.page') }}">
                                 <i class="registered icon"></i>
                                 @lang('user.register')
                             </a>
