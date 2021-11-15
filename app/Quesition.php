@@ -47,4 +47,15 @@ class Quesition extends Model
         return self::dataTableSearch($list, $request->input(), ['id', 'name', 'year', 'type', 'introduce']);
     }
 
+    public static function random($type, $amount)
+    {
+       return Quesition::select('id')
+                        ->where('type', $type)
+                        ->inRandomOrder()
+                        ->limit($amount)
+                        ->get()
+                        ->pluck('id')
+                        ->toArray();
+    }
+
 }

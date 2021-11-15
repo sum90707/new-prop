@@ -11,7 +11,23 @@
                     </h3>
                 </div>
                 <div class="content">
-                    {{ Form::open(array( 'method' => 'post', 'class' => 'ui form', 'id' => 'create-quesition')) }}
+                    <div class="row">
+                        <div class="ui two column grid">
+                            <div class="five wide column middle aligned center aligned">
+                                @lang('paper.paper_select')
+                            </div>
+                            <div class="ten wide column">
+                                {{ Form::select('Paper[id]', [], null, array(
+                                    'class' => 'ui fluid search dropdown papers-select-multi',
+                                    'id' => 'papers-select-multi'
+                                )) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content">
+                    {{ Form::open(array( 'method' => 'post', 'class' => 'ui form', 'id' => 'create-multi')) }}
             
                         <div class="row">
                             <div class="ui three column grid middle aligned center aligned">
@@ -23,7 +39,7 @@
                                     @lang('paper.amount') : 
                                 </div>
                                 <div class="three wide column middle aligned center aligned">
-                                    {{ Form::number('Import[tf]', '',[
+                                    {{ Form::number('Import[tf]', '0',[
                                         'id' => 'tf-amount',
                                         'max' => 50,
                                         'min' => 0
@@ -42,7 +58,7 @@
                                     @lang('paper.amount') : 
                                 </div>
                                 <div class="three wide column middle aligned center aligned">
-                                    {{ Form::number('Import[mutltiple]', '',[
+                                    {{ Form::number('Import[mutltiple]', '0',[
                                         'id' => 'mutltiple-amount',
                                         'max' => 50,
                                         'min' => 0
@@ -56,7 +72,7 @@
                     @can('edit', 'App\User')
                         <div class="row button-row">
                             <div class="column middle aligned center aligned">
-                                <button class="ui secondary button" id="quesition-save">
+                                <button class="ui secondary button" id="multi-save">
                                     <i class="save icon icon"></i>
                                     @lang('paper.import')
                                 </button>
@@ -71,7 +87,43 @@
 </div>
 
 
+<script>
 
+$(function() {
+
+    let route = {
+            dropdown : "{{ route('paper.dropdwon') }}",
+            formSave :  "{{ route('paper.multiSave', ['paper' => '__DATA__']) }}",
+    };
+
+    let save = {
+        $btn : $('#multi-save'),
+        $form : $('#create-multi'),
+        url : route.formSave,
+        token : "{{ csrf_token() }}",
+        method : 'POST',
+        before : function() {
+            this.url = stringReplace(route.formSave, {
+                '__DATA__' : $('.papers-select-multi').find('.selected').data('value')
+            });
+        },
+        callback : function(){
+            $('#create-multi').trigger("reset");
+        }
+    },
+    dropdwonConfig = {
+        url : route.dropdown,
+        token : "{{ csrf_token() }}",
+        callback : function(json, config) {
+            $('.papers-select-multi').dropdown('setup menu', json);
+            $('.papers-select-multi').dropdown('set selected', json.values[0].value);  
+        }
+    };
+
+    new FormSave(save);
+    triggerAJAX(dropdwonConfig);
+})
+</script>
 
 
 

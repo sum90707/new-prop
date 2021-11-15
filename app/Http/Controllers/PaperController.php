@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Auth;
 use App\Paper;
+use App\Quesition;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
@@ -122,4 +123,38 @@ class PaperController extends Controller
             ], 422);
         }
     }
+
+    public function multiSave(Request $request, Paper $paper)
+    {
+
+        request()->validate([
+            'Import.tf' => 'integer|between:0,50',
+            'Import.mutltiple' => 'integer|between:0,50'
+        ]);
+
+        $amount = $request->post('Import');
+        $ids = array();
+
+        try {
+            if ($amount['tf']) {
+                $ids = array_merge($ids, Quesition::random(0, $amount['tf']));
+            }
+
+            if($amount['mutltiple']) {
+                $ids = array_merge($ids, Quesition::random(1, $amount['mutltiple']));
+            }
+
+            sort($ids);
+            $paper->quesitions()->sync($ids);
+
+            return new JsonResponse([ 
+                'message' => 'save quesitions successfully.',
+            ]);
+         } catch (\Throwable $th) {
+            return new JsonResponse([ 
+                'message' => 'Operation fail !' . $th->getMessage()
+            ], 422);
+        }
+    }
+    
 }
