@@ -8,6 +8,7 @@
             <th>@lang('paper.name')</th>
             <th>@lang('paper.introduce')</th>
             <th>@lang('paper.create_by')</th>
+            <th>@lang('paper.operate')</th>
         </tr>
     </thead>
 </table>
@@ -18,6 +19,7 @@
         let route = {
             list : "{{ route('paper.list') }}",
             toggleStatus : "{{ route('paper.status', ['paper' => '__PAPER__']) }}",
+            download : "{{ route('paper.dwonload', ['paper' => '__DATA__']) }}"
         }
 
 
@@ -36,8 +38,9 @@
                 { "width": "5%", "targets": 0},
                 { "width": "5%", "targets": 1},
                 { "width": "15%", "targets": 2},
-                { "width": "50%", "targets": 3},
-                { "width": "25%", "targets": 4},
+                { "width": "45%", "targets": 3},
+                { "width": "20%", "targets": 4},
+                { "width": "10%", "targets": 5},
             ],
             columns: [
                 {
@@ -68,6 +71,25 @@
                     render: function (data, type, row) {
                         return data.name;
                     }
+                },
+                {
+                    data: 'id',
+                    render: function (data, type, row) {
+                        return `
+                            <div class="ui floating dropdown button operate">
+                                    @lang('paper.operate')
+                                <i class="dropdown icon"></i>
+                                <div class="menu">
+                                    <a class="item" target="_blank"
+                                        href="${stringReplace(route.download, {'__DATA__' : data})}"
+                                    >
+                                        Download
+                                    </a>
+                                </div>
+                            </div>
+                        `
+                    }
+                    
 
                 },
             ],
@@ -76,12 +98,13 @@
                 Toggle.statusToggle($('.status-checkbox'), function() {
                     $dataTable.draw();
                 });
+                $('.dropdown.button.operate').dropdown({on: 'hover'});
             }
         });
 
-        // setInterval(() => {
-        //     $dataTable.ajax.reload();
-        // }, 10000);
+        setInterval(() => {
+            $dataTable.ajax.reload();
+        }, 30000);
 
     })
      

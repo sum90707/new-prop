@@ -14,5 +14,6 @@ return [
     'selected' => 'Selected',
     'paper_select' => 'Test paper select',
     'multi_import' => 'Multi Import',
-    'amount' => 'Amount'
+    'amount' => 'Amount',
+    'operate' => 'Operate'
 ];

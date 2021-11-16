@@ -14,5 +14,6 @@ return [
     'selected' => '已選擇',
     'paper_select' => '試卷選擇',
     'multi_import' => '批量匯入',
-    'amount' => '數量'
+    'amount' => '數量',
+    'operate' => '操作',
 ];
