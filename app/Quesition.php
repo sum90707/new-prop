@@ -21,7 +21,9 @@ class Quesition extends Model
      *
      * @var array
      */
-    protected $dates = ['deleted_at']; 
+    protected $dates = ['deleted_at'];
+
+    protected $appends = ['option'];
 
     protected $fillable = [
         'name', 'year', 'type', 'introduce' , 'answer'
@@ -30,6 +32,11 @@ class Quesition extends Model
     public function options()
     {
         return $this->hasMany('App\Option');
+    }
+
+    public function getOptionAttribute()
+    {
+        return $this->options;
     }
 
     public static function buildQuesitionList($request)

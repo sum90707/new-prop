@@ -61,6 +61,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('dropdwon', 'PaperController@dropdwon')->name('paper.dropdwon')->middleware('can:read,App\Paper');
         Route::get('list', 'PaperController@list')->name('paper.list')->middleware('can:read,App\Paper');
         Route::put('status/{paper}', 'PaperController@status')->name('paper.status')->middleware('can:delete,App\Paper');
+
+        Route::get('download/{paper}', 'ExcelController@paper')->name('paper.dwonload')->middleware('can:read,App\Paper');
     });
 
 });

@@ -34,7 +34,6 @@ class Role extends Model
 
     public static function getRoleName(self $role)
     {
-        dd($role);
         return $role->name;
     }
 

@@ -12,6 +12,8 @@
         "laravel/socialite": "~3.0",
         "laravel/tinker": "~1.0",
         "laravelcollective/html": "~5.0",
+        "maatwebsite/excel": "~3.0.0",
+        "phpoffice/phpspreadsheet": "^1.19",
         "yajra/laravel-datatables-oracle": "~8.0"
     },
     "require-dev": {
