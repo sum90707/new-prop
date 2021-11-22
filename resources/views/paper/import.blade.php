@@ -69,6 +69,8 @@
                                         <th class="two wide">@lang('glob.delete')</th>
                                     </tr>
                                 </thead>
+                                <tbody id="quesition-selected-body">
+                                </tbody>
                             </table>
                         </div>
                     {{ Form::close() }}
@@ -101,9 +103,13 @@
             selectSave : "{{ route('paper.selected', ['paper' => '__DATA__']) }}",
             getSelected : "{{ route('paper.getSelected', ['paper' => '__DATA__']) }}"
         },
+        lang = {
+            0 : "@lang('quesition.types.0')",
+            1 : "@lang('quesition.types.1')",
+        },
         template =  `
             <tr><td class=" left aligned">
-                @lang('quesition.name') : __ID__<br>
+                @lang('quesition.id') : __ID__<br>
                 @lang('quesition.name') : __NAME__<br>
                 @lang('quesition.year') : __YEAR__<br>
                 @lang('quesition.type') : __TYPE__</td>
@@ -125,7 +131,7 @@
             template : template,
             callback : function(json, config) {
                 $.each(json.data, function(index, quesition) {
-                    $('#quesition-selected').append(
+                    $('#quesition-selected-body').append(
                         stringReplace(config.template, {
                             '__ID__' : quesition.id,
                             '__NAME__' : quesition.name,
@@ -156,14 +162,14 @@
                 
             },
             callback : function(json, config) {
-                $('#quesition-selected').html('');
+                $('#quesition-selected-body').html('');
                 $.each(json.data, function(index, quesition) {
-                    $('#quesition-selected').append(
+                    $('#quesition-selected-body').append(
                         stringReplace(config.template, {
                             '__ID__' : quesition.id,
                             '__NAME__' : quesition.name,
                             '__YEAR__' : quesition.year,
-                            '__TYPE__' : quesition.type,
+                            '__TYPE__' : lang[quesition.type],
                             '__INTRODUCE__' : quesition.introduce
                         })
                     );
