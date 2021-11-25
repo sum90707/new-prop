@@ -19,9 +19,9 @@ class ExcelController extends Controller
         $quesitions = $paper->quesitions->toArray();
         self::sortOptions($quesitions);
         self::translateType($quesitions);
-        self::hiddenColumn(
+        self::onlyColumn(
             $quesitions, 
-            ['id', 'deleted_at', 'created_at', 'updated_at', 'pivot', 'options']
+            ['name', 'year', 'type', 'introduce', 'answer', 'option']
         );
         self::setHeader($quesitions, 'quesition');
 
@@ -48,20 +48,18 @@ class ExcelController extends Controller
         }
     }
 
-    private static function hiddenColumn(&$datas, $hiddens = [])
+    private static function onlyColumn(&$datas, $needs = [])
     {
         foreach($datas as &$data) {
-            foreach($hiddens as $hidden) {
-                unset($data[$hidden]);
-            }
-        } 
+            $data = array_only($data, $needs);
+        }
     }
 
     private static function setHeader(&$datas, $langFile)
     {
         $header = array();
         foreach($datas[0] as $index => $data) {
-            array_push($header, Lang::get("$langFile.$index"));
+            array_push($header, trans("$langFile.$index"));
         }
         array_unshift($datas, $header);
     }

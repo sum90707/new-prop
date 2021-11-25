@@ -15,5 +15,7 @@ return [
     'paper_select' => 'Test paper select',
     'multi_import' => 'Multi Import',
     'amount' => 'Amount',
-    'operate' => 'Operate'
+    'operate' => 'Operate',
+    'start_test' => 'Start Test',
+    'send_answer' => 'Send Answer',
 ];

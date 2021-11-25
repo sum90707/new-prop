@@ -100,4 +100,9 @@ class PaperPolicy
         }
         return false;
     }
+
+    public function test(User $user, Paper $model = null)
+    {
+        return true;
+    }
 }

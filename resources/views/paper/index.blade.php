@@ -16,27 +16,30 @@
     </div>
     
     <div class="ui top attached tabular menu quesition">
+        @can('read', 'App\Paper')
+            <a class="item active" data-tab="list">@lang('paper.list')</a>
+        @endcan
         @can('create', 'App\Paper')
             <a class="item" data-tab="create">@lang('paper.title_create')</a>
         @endcan
-        @can('read', 'App\Paper')
-            <a class="item" data-tab="list">@lang('paper.list')</a>
+        @can('edit', 'App\Paper')
+            <a class="item" data-tab="import">@lang('paper.import')</a>
         @endcan
         @can('edit', 'App\Paper')
-            <a class="item " data-tab="import">@lang('paper.import')</a>
+            <a class="item" data-tab="multi">@lang('paper.multi_import')</a>
         @endcan
-        @can('edit', 'App\Paper')
-            <a class="item active" data-tab="multi">@lang('paper.multi_import')</a>
+        @can('test', 'App\Paper')
+            <a class="item" data-tab="test">@lang('paper.start_test')</a>
         @endcan
     </div>
+    @can('read', 'App\Paper')
+        <div class="ui bottom attached tab segment active" data-tab="list">
+            @include('paper.list')
+        </div>
+    @endcan
     @can('create', 'App\Paper')
         <div class="ui bottom attached tab segment" data-tab="create">
             @include('paper.create')
-        </div>
-    @endcan
-    @can('read', 'App\Paper')
-        <div class="ui bottom attached tab segment" data-tab="list">
-            @include('paper.list')
         </div>
     @endcan
     @can('edit', 'App\Paper')
@@ -45,8 +48,13 @@
         </div>
     @endcan
     @can('edit', 'App\Paper')
-        <div class="ui bottom attached tab segment active" data-tab="multi">
+        <div class="ui bottom attached tab segment" data-tab="multi">
             @include('paper.multi')
+        </div>
+    @endcan
+    @can('test', 'App\Paper')
+        <div class="ui bottom attached tab segment" data-tab="test">
+            @include('paper.test')
         </div>
     @endcan
 <script>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Auth;
 use App\Paper;
 use App\Quesition;
+use App\Services\TestService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
@@ -14,6 +15,13 @@ class PaperController extends Controller
 {
     
     use SortoutDropdown;
+
+    private $testService;
+
+    public function __construct(TestService $testService)
+    {
+        $this->testService = $testService;
+    }
 
     public function index(Request $request)
     {
@@ -61,9 +69,6 @@ class PaperController extends Controller
                         ->get();
 
         return self::SortoutDropdown($papers, 'id', 'name');
-        
-        // return $papers->get()
-        //               ->pluck('name', 'id');
     }
 
     public function status(Request $request, $id)
@@ -113,9 +118,11 @@ class PaperController extends Controller
     public function getSelected(Request $request,Paper $paper)
     {
         try {
+            $quesitions = $paper->quesitions
+                                ->makeHidden(['answer']);
             return new JsonResponse([ 
                 'message' => 'save quesitions successfully.',
-                'data' => $paper->quesitions
+                'data' => $quesitions
             ]);
          } catch (\Throwable $th) {
             return new JsonResponse([ 
@@ -155,6 +162,21 @@ class PaperController extends Controller
                 'message' => 'Operation fail !' . $th->getMessage()
             ], 422);
         }
+    }
+
+    public function correct(Request $request)
+    {
+        request()->validate([
+            'Answer' => 'required',
+        ]);
+
+
+        $answer = $request->post('Answer');
+        
+        $grade = $this->testService->grade($answer);
+        return new JsonResponse([ 
+            'message' => 'Score : ' . $grade['percent'],
+        ]);
     }
     
 }

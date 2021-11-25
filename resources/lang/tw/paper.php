@@ -16,4 +16,6 @@ return [
     'multi_import' => '批量匯入',
     'amount' => '數量',
     'operate' => '操作',
+    'start_test' => '進行測驗',
+    'send_answer' => '送出答案',
 ];

@@ -21,7 +21,9 @@ class Paper extends Model
 
     public function quesitions()
     {
-        return $this->belongsToMany('App\Quesition', 'paper_quesition')->withTimestamps();
+        return $this->belongsToMany('App\Quesition', 'paper_quesition')
+                    ->withTimestamps()
+                    ->orderBy('type');
     }
 
     public function createBy()

@@ -19,7 +19,7 @@
         let route = {
             list : "{{ route('paper.list') }}",
             toggleStatus : "{{ route('paper.status', ['paper' => '__PAPER__']) }}",
-            download : "{{ route('paper.dwonload', ['paper' => '__DATA__']) }}"
+            download : "{{ route('paper.dwonload', ['paper' => '__DATA__']) }}",
         }
 
 
@@ -81,9 +81,12 @@
                                 <i class="dropdown icon"></i>
                                 <div class="menu">
                                     <a class="item" target="_blank"
-                                        href="${stringReplace(route.download, {'__DATA__' : data})}"
-                                    >
+                                        href="${stringReplace(route.download, {'__DATA__' : data})}">
                                         Download
+                                    </a>
+                                    <a class="item"
+                                        href="">
+                                        @lang('paper.start_test')
                                     </a>
                                 </div>
                             </div>
