@@ -1,5 +1,5 @@
 <div class="ui container fluid">
-    <div class="ui one column grid" style="height: 100vh;overflow: auto;">
+    <div class="ui one column grid flow">
         <div class="column">
 
             <div class="select ui card fluid">
@@ -45,7 +45,7 @@
                     {{ Form::close() }}
                 </div>
                 <div class="content center aligned">
-                    <button class="ui greed button" id="test-save">
+                    <button class="ui greed button" id="test-save" disabled="disabled">
                         <i class="hand point right icon"></i>
                         @lang('paper.send_answer')
                     </button>
@@ -63,7 +63,7 @@
         let route = {
             dropdown : "{{ route('paper.dropdwon') }}",
             getSelected : "{{ route('paper.getSelected', ['paper' => '__DATA__']) }}",
-            formSave : "{{ route('paper.correct') }}"
+            formSave : "{{ route('paper.correct', ['paper' => '__DATA__']) }}"
         },
         template = `
             <tr><td class=" left aligned">
@@ -80,20 +80,22 @@
                 
             </tr>
         `,
-        dropdwonConfig = {
+        quizDropdwon = {
             url : route.dropdown,
+            method : 'POST',
             token : "{{ csrf_token() }}",
+            before: function() {
+                $('.papers-select-test').dropdown('clear');
+            },
             callback : function(json, config) {
                 $('.papers-select-test').dropdown('setup menu', json);
-                $('.papers-select-test').dropdown('set selected', json.values[0].value);
-                $('#paper-get').bind('click', function () {
 
-                    let value = $('.papers-select-test').find('.selected').data('value')
+                $('#paper-get').unbind('click').bind('click', function () {
+                    let value = $('.papers-select-test').find('.selected').data('value');
                     get.url = stringReplace(route.getSelected, {
-                        '__DATA__' : value
+                        '__DATA__' : value ? value : '__DATA__'
                     });
                     triggerAJAX(get);
-                    $(this).attr('disabled', true);
                 })
 
             }
@@ -103,11 +105,11 @@
             token : "{{ csrf_token() }}",
             method : 'GET',
             template : template,
-            before : function() {
-                
-            },
             callback : function(json, config) {
                 $('#test-paper-body').html('');
+                $('.flow').addClass('container-scroll');
+                $('#paper-get').attr('disabled', true);
+                $('#test-save').removeAttr('disabled');
                 $.each(json.data, function(index, quesition) {
                     let options = makeOptions(quesition.options);
                     $('#test-paper-body').append(
@@ -129,14 +131,19 @@
             token : "{{ csrf_token() }}",
             method : 'POST',
             before : function() {
-                
+                this.url = stringReplace(route.formSave, {
+                    '__DATA__' : $('.papers-select-test').find('.selected').data('value')
+                })
             },
             callback : function(){
-                
+                triggerAJAX(quizDropdwon);
+                $('#test-paper-body').html('');
+                $('#paper-get').removeAttr('disabled');
+                $('#test-save').attr('disabled', true);
             }
         }
 
-        triggerAJAX(dropdwonConfig);
+        triggerAJAX(quizDropdwon);
         new FormSave(save);
 
 

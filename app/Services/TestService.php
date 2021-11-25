@@ -27,6 +27,7 @@ class TestService
         $perecnt = (count($right) / count($correct)) * 100;
         
         return array(
+            'origin' => $answer,
             'right' => $right,
             'wrong' => $wrong,
             'percent' => round($perecnt)

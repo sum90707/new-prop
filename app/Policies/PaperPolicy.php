@@ -101,8 +101,16 @@ class PaperPolicy
         return false;
     }
 
-    public function test(User $user, Paper $model = null)
+    public function test(User $user, Paper $model)
     {
-        return true;
+        $permission = $user->tests
+                           ->where('papaer_id', $model->id)
+                           ->whereNull('detail')
+                           ->first();
+
+        if($permission) {
+            return true;
+        }
+        return false;
     }
 }

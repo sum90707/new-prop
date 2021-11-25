@@ -55,6 +55,11 @@ class User extends Authenticatable
         return $this->belongsTo('App\Role');
     }
 
+    public function tests()
+    {
+        return $this->hasMany('App\PaperDetail');
+    }
+
     public function getRoleNameAttribute()
     {
         return $this->role->name;

@@ -64,6 +64,7 @@ body > .ui.container {
 	padding-right: 20px !important;	
 }
 
+
 body .pusher.dimmed{
 	cursor: pointer;
     -webkit-transition: opacity .5s;
@@ -107,6 +108,11 @@ body .pusher{
 
 .sidebar-button-group {
     padding-top: 15px;
+}
+
+.container-scroll {
+    height: 100vh;
+    overflow: auto;
 }
 
 .dataTable select.ui.dropdown {

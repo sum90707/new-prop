@@ -180,7 +180,7 @@
                 });
             }
         }
-        dropdwonConfig = {
+        dropdwon = {
             url : route.dropdown,
             token : "{{ csrf_token() }}",
             callback : function(json, config) {
@@ -272,7 +272,7 @@
         
         new FormSave(save);
 
-        triggerAJAX(dropdwonConfig);
+        triggerAJAX(dropdwon);
         
 
     });

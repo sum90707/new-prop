@@ -28,7 +28,7 @@
         @can('edit', 'App\Paper')
             <a class="item" data-tab="multi">@lang('paper.multi_import')</a>
         @endcan
-        @can('test', 'App\Paper')
+        @can('read', 'App\Paper')
             <a class="item" data-tab="test">@lang('paper.start_test')</a>
         @endcan
     </div>
@@ -52,7 +52,7 @@
             @include('paper.multi')
         </div>
     @endcan
-    @can('test', 'App\Paper')
+    @can('read', 'App\Paper')
         <div class="ui bottom attached tab segment" data-tab="test">
             @include('paper.test')
         </div>

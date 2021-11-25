@@ -8,10 +8,10 @@ trait SortoutDropdown
     public static function SortoutDropdown($datas, $valueColumn, $nameColumn)
     {
         $result = array();
-        foreach($datas as $data) {
+        foreach($datas->toArray() as $data) {
             array_push($result, [
-                'value' => $data[$valueColumn],
-                'name' => $data[$nameColumn]
+                'value' => array_get($data, $valueColumn),
+                'name' => array_get($data, $nameColumn)
             ]);
         }
 
