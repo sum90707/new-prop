@@ -54,6 +54,7 @@ class UserController extends Controller
 
         try {
             $user->fill($request->post('User'));
+
             if ($user->isDirty()) {
                 $user->save();
             }

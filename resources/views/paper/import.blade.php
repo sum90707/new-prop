@@ -214,7 +214,7 @@
                 });
             },
             callback : function(){
-                $('#quesition-selected').html('');
+                $('#quesition-selected-body').html('');
                 $('#selected').trigger("reset");
                 triggerAJAX(get);
             }

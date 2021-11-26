@@ -83,7 +83,7 @@
                             </div>
                         </div>
 
-                        @can('create', 'App\User')
+                        @can('edit', 'App\User')
                             <div class="row">
                                 <div class="ui two column grid ">
                                     <div class="three wide column middle aligned">

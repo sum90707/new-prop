@@ -31,7 +31,7 @@ class User extends Authenticatable
      */
 
     protected $fillable = [
-        'name', 'email', 'password', 'language' , 'api_token' , 'role_id', 'mug_shot'
+        'name', 'email', 'password', 'language' , 'api_token' , 'role_id', 'mug_shot', 'introduce'
     ];
 
     
@@ -55,9 +55,14 @@ class User extends Authenticatable
         return $this->belongsTo('App\Role');
     }
 
-    public function tests()
+    public function score()
     {
-        return $this->hasMany('App\PaperDetail');
+        return $this->hasMany('App\UserQuiz');
+    }
+
+    public function quizzes()
+    {
+        return $this->belongsToMany('App\Quiz', 'user_quiz');
     }
 
     public function getRoleNameAttribute()

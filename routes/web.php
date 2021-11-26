@@ -58,18 +58,23 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('selected/{paper}', 'PaperController@getSelected')->name('paper.getSelected')->middleware('can:read,paper');
         Route::post('multi/{paper}', 'PaperController@multiSave')->name('paper.multiSave')->middleware('can:edit,paper');
 
-        Route::get('dropdwon', 'PaperController@dropdwon')->name('paper.dropdwon')->middleware('can:read,App\Paper');
-        Route::post('dropdwon', 'PaperController@Quizdropdwon')->name('paper.quiz')->middleware('can:read,App\Paper');
+        Route::get('dropdwon', 'PaperController@dropdwon')->name('paper.dropdwon')->middleware('can:read,App\Paper');  
 
         Route::get('list', 'PaperController@list')->name('paper.list')->middleware('can:read,App\Paper');
         Route::put('status/{paper}', 'PaperController@status')->name('paper.status')->middleware('can:delete,App\Paper');
-
-        Route::post('correct/{paper}', 'PaperController@correct')->name('paper.correct')->middleware('can:test,paper');
-        // 
-
-
-        // download route
+        
         Route::get('download/{paper}', 'ExcelController@paper')->name('paper.dwonload')->middleware('can:read,App\Paper');
+    });
+
+    Route::prefix('quiz')->group(function() {
+        Route::get('/', 'QuizController@index')->name('quiz.index')->middleware('can:read,App\Quiz');
+        Route::get('dropdown', 'QuizController@dropdown')->name('quiz.dropdown')->middleware('can:read,App\Quiz');
+        
+        Route::get('{quiz}', 'QuizController@get')->name('quiz.get')->middleware('can:take,quiz');
+        Route::post('{quiz}/grade', 'QuizController@grade')->name('quiz.grade')->middleware('can:take,quiz');
+        
+
+        
     });
 
 });

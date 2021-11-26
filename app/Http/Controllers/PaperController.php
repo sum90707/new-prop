@@ -6,8 +6,6 @@ use Auth;
 use App\User;
 use App\Paper;
 use App\Quesition;
-use App\Services\TestService;
-use App\Repositories\PaperDetailRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
@@ -18,15 +16,10 @@ class PaperController extends Controller
     
     use SortoutDropdown;
 
-    private $testService;
-    private $paperDetailRepo;
 
-    public function __construct(
-        TestService $testService, 
-        PaperDetailRepository $paperDetailRepo
-    ) {
-        $this->testService = $testService;
-        $this->paperDetailRepo = $paperDetailRepo;
+    public function __construct()
+    {
+
     }
 
     public function index(Request $request)
@@ -75,12 +68,6 @@ class PaperController extends Controller
                         ->get();
 
         return self::SortoutDropdown($papers, 'id', 'name');
-    }
-
-    public function Quizdropdwon(Request $request)
-    {
-        $quizzes = $this->paperDetailRepo->getQuizzes(Auth::User());
-        return self::SortoutDropdown($quizzes, 'paper.id', 'paper.name');
     }
 
     public function status(Request $request, $id)
@@ -172,33 +159,6 @@ class PaperController extends Controller
         } catch (\Throwable $th) {
             return new JsonResponse([ 
                 'message' => 'Operation fail !' . $th->getMessage()
-            ], 422);
-        }
-    }
-
-    public function correct(Request $request, Paper $paper)
-    {
-        request()->validate([
-            'Answer' => 'required',
-        ]);
-
-        $answer = $request->post('Answer');
-
-        try {
-            
-            $grade = $this->testService->grade($answer);
-            $model = $this->paperDetailRepo->getQuiz(Auth::User());
-
-            $model->update([
-                'detail' => json_encode($grade)
-            ]);
-            
-            return new JsonResponse([ 
-                'message' => 'Successfully handed in ! Score : ' . $grade['percent'],
-            ]);
-        } catch (\Throwable $th) {
-            return new JsonResponse([ 
-                'message' => 'Operation fail !'
             ], 422);
         }
     }

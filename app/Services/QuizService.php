@@ -5,17 +5,15 @@ namespace App\Services;
 use App\Repositories\PaperRepository;
 use App\Repositories\QuesitionRepository;
 
-class TestService
+class QuizService
 {
     private $paperRepo;
     private $qeusitionRepo;
 
-    public function __construct(
-        PaperRepository $paperRepo,
-        QuesitionRepository $qeusitionRepo
-    ) {
-        $this->paperRepo = $paperRepo;
-        $this->qeusitionRepo = $qeusitionRepo;
+    public function __construct() 
+    {
+        $this->paperRepo = new PaperRepository;
+        $this->qeusitionRepo = new QuesitionRepository;
     }
 
 
@@ -54,11 +52,4 @@ class TestService
 
         return array($right, $wrong);
     }
-
-    
-    
-
 }
-
-
-?>

@@ -5,25 +5,25 @@
             <div class="select ui card fluid">
                 <div class="content center aligned">
                     <div class="header">
-                        @lang('paper.start_test')
+                        @lang('quiz.start_quiz')
                     </div>
                 </div> 
 
                 <div class="content">
                     <div class="ui three column grid">
                         <div class="five wide column middle aligned center aligned">
-                            @lang('paper.paper_select')
+                            @lang('quiz.quiz_select')
                         </div>
                         <div class="seven wide column">
-                            <select class="ui fluid search dropdown papers-select-test" id="papers-select-test">
+                            <select class="ui fluid search dropdown quizzes" id="quizzes">
                                
                             </select>
                         </div>
                         <div class="three wide column">
                             <div>
-                                <button class="ui button right floated" id="paper-get">
+                                <button class="ui button right floated" id="quiz-get">
                                     <i class="hand point right icon"></i>
-                                    @lang('paper.start_test')
+                                    @lang('quiz.start_quiz')
                                 </button>
                             </div>
                         </div>
@@ -45,7 +45,7 @@
                     {{ Form::close() }}
                 </div>
                 <div class="content center aligned">
-                    <button class="ui greed button" id="test-save" disabled="disabled">
+                    <button class="ui blue button" id="quiz-save" disabled="disabled">
                         <i class="hand point right icon"></i>
                         @lang('paper.send_answer')
                     </button>
@@ -61,9 +61,9 @@
 <script> 
     $(function() {
         let route = {
-            dropdown : "{{ route('paper.dropdwon') }}",
-            getSelected : "{{ route('paper.getSelected', ['paper' => '__DATA__']) }}",
-            formSave : "{{ route('paper.correct', ['paper' => '__DATA__']) }}"
+            dropdown : "{{ route('quiz.dropdown') }}",
+            getSelected : "{{ route('quiz.get', ['quiz' => '__DATA__']) }}",
+            formSave : "{{ route('quiz.grade', ['quiz' => '__DATA__']) }}"
         },
         template = `
             <tr><td class=" left aligned">
@@ -82,16 +82,16 @@
         `,
         quizDropdwon = {
             url : route.dropdown,
-            method : 'POST',
+            method : 'GET',
             token : "{{ csrf_token() }}",
             before: function() {
-                $('.papers-select-test').dropdown('clear');
+                $('.quizzes').dropdown('clear');
             },
             callback : function(json, config) {
-                $('.papers-select-test').dropdown('setup menu', json);
+                $('.quizzes').dropdown('setup menu', json);
 
-                $('#paper-get').unbind('click').bind('click', function () {
-                    let value = $('.papers-select-test').find('.selected').data('value');
+                $('#quiz-get').unbind('click').bind('click', function () {
+                    let value = $('.quizzes').find('.selected').data('value');
                     get.url = stringReplace(route.getSelected, {
                         '__DATA__' : value ? value : '__DATA__'
                     });
@@ -108,8 +108,8 @@
             callback : function(json, config) {
                 $('#test-paper-body').html('');
                 $('.flow').addClass('container-scroll');
-                $('#paper-get').attr('disabled', true);
-                $('#test-save').removeAttr('disabled');
+                $('#quiz-get').attr('disabled', true);
+                $('#quiz-save').removeAttr('disabled');
                 $.each(json.data, function(index, quesition) {
                     let options = makeOptions(quesition.options);
                     $('#test-paper-body').append(
@@ -125,21 +125,21 @@
             }
         },
         save = {
-            $btn : $('#test-save'),
+            $btn : $('#quiz-save'),
             $form : $('#test-paper'),
             url : route.formSave,
             token : "{{ csrf_token() }}",
             method : 'POST',
             before : function() {
                 this.url = stringReplace(route.formSave, {
-                    '__DATA__' : $('.papers-select-test').find('.selected').data('value')
+                    '__DATA__' : $('.quizzes').find('.selected').data('value')
                 })
             },
             callback : function(){
                 triggerAJAX(quizDropdwon);
                 $('#test-paper-body').html('');
-                $('#paper-get').removeAttr('disabled');
-                $('#test-save').attr('disabled', true);
+                $('#quiz-get').removeAttr('disabled');
+                $('#quiz-save').attr('disabled', true);
             }
         }
 

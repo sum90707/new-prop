@@ -13,12 +13,22 @@ class CreateUserPaperTable extends Migration
      */
     public function up()
     {
-        Schema::create('paper_detail', function (Blueprint $table) {
+        Schema::create('quizzes', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('user_id')->unsigned();
+            $table->string('name');
+            $table->string('introduce', 1024);
             $table->integer('paper_id')->unsigned();
-            $table->json('detail')->nullable()->default(null);
+            $table->integer('create_by')->unsigned();
             $table->softDeletes();
+            $table->timestamps();
+        });
+
+        Schema::create('user_quiz', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->integer('quiz_id')->unsigned();
+            $table->integer('user_id')->unsigned();
+            $table->json('detail')->nullable()->default(null);
+            $table->integer('score')->nullable()->default(null);
             $table->timestamps();
         });
     }
@@ -30,6 +40,7 @@ class CreateUserPaperTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('paper_detail');
+        Schema::dropIfExists('quizzes');
+        Schema::dropIfExists('user_quiz');
     }
 }

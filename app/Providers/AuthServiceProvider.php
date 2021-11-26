@@ -6,9 +6,11 @@ use App\User;
 use App\Menu;
 use App\Quesition;
 use App\Paper;
+use App\Quiz;
 use App\Policies\MenuPolicy;
 use App\Policies\UserPolicy;
 use App\Policies\QuesitionPolicy;
+use App\Policies\QuizPolicy;
 use App\Policies\PaperPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -24,6 +26,7 @@ class AuthServiceProvider extends ServiceProvider
         User::class => UserPolicy::class,
         Quesition::class => QuesitionPolicy::class,
         Paper::class => PaperPolicy::class,
+        Quiz::class => QuizPolicy::class
     ];
 
     /**

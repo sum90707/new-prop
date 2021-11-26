@@ -60,7 +60,9 @@ class FormFill extends AlertMsg {
             case $elemet.is("img") :
                 $elemet.attr('src', this.imagePath(value));
                 break;
-            
+            case $elemet.is("textarea") :
+                $elemet.val(value);
+                break;
             default :
                 console.log($elemet, value);
         }
