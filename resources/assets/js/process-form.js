@@ -23,7 +23,7 @@ class FormFill extends AlertMsg {
 			},
 			data: this.data,
 			success: function success(json, status, xhr) {
-                this.fillForm(json);
+                this.fillForm(json.data);
 			}.bind(this)
 		}).fail(
             function (e) {

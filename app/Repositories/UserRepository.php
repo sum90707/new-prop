@@ -30,4 +30,59 @@ class UserRepository
         return $quizzes->score;
     }
 
+    public function getById($user)
+    {
+        return $this->user
+                    ->find($user);
+    }
+
+    public function getWithTrashById($user)
+    {
+        return $this->user
+                    ->withTrashed()
+                    ->find($user);
+    }
+
+    public function update($user, $attributes)
+    {
+        return $user->update($attributes);
+    }
+
+    public function buildUserList($request)
+    {   
+        $list = $this->user
+                     ->withTrashed()
+                     ->select('id', 'name', 'email', 'language' , 'api_token' , 'role_id', 'deleted_at')
+                     ->whereHas('role.menus', function($list) {
+                         $list->where('name',  $this->user->getTableName())
+                             ->where('is_super_user', false);
+                     });
+        
+        return $list;
+    }
+
+    public function getByColumn($column, $index)
+    {
+        return $this->user
+                    ->where($column, $index)
+                    ->firstOrFail();
+    }
+
+    public function softDel($user)
+    {
+        $user->trashed() ? $user->restore() : $user->delete();
+
+        return $user->trashed();
+    }
+
+    public function forceUpdate($model, $attributes)
+    {
+        return $model->forceFill($attributes)->saveOrFail();
+    }
+
+    public function getTable()
+    {
+        return $this->user->getTableName();
+    }
+
 }

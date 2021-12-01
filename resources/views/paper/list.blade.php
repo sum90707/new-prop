@@ -84,10 +84,6 @@
                                         href="${stringReplace(route.download, {'__DATA__' : data})}">
                                         Download
                                     </a>
-                                    <a class="item"
-                                        href="">
-                                        @lang('paper.start_test')
-                                    </a>
                                 </div>
                             </div>
                         `

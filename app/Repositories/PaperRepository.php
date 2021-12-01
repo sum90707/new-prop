@@ -13,23 +13,27 @@ class PaperRepository
         $this->paper = new Paper;
     }
 
-    public function getAndPluck($id, $key, $value)
+    public function creatWithUser($attributes, $id)
     {
+        $attributes = array_add($attributes, 'create_by', $id);
+        return $this->paper->forceFill($attributes)->saveOrFail();
         
-        if(is_array($id)) {
-            $this->paper->whereIn('id', $id);
-            
-        } else {
-            $this->paper->where('id', $ids);
-        }
-        dd($this->paper->whereIn('id', $id)->get()->toArray());
-        return $this->paper->get()
-                     ->pluck($key, $value)
-                     ->toArray();
+    }
+
+    public function list()
+    {
+        return $this->paper
+                    ->withTrashed()
+                    ->with([
+                        'createBy' => function($list) {
+                            $list->select('id', 'name', 'role_id');
+                        }
+                    ])
+                    ->select('id', 'name', 'introduce', 'create_by', 'deleted_at')
+                    ->visible()
+                    ->orderBy('id');
     }
 
 
 
 }
-
-?>

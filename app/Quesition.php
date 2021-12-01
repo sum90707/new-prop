@@ -38,31 +38,4 @@ class Quesition extends Model
     {
         return $this->options;
     }
-
-    public static function buildQuesitionList($request)
-    {
-        $list = self::withTrashed()
-                    ->with([
-                        'options' => function($list) {
-                            $list->select('quesition_id', 'order', 'introduce')
-                                 ->orderBy('order', 'ASC');
-                        }
-                    ])
-                    ->select('id', 'name', 'year', 'type', 'introduce', 'answer', 'deleted_at')
-                    ->orderBy('id');
-        
-        return self::dataTableSearch($list, $request->input(), ['id', 'name', 'year', 'type', 'introduce']);
-    }
-
-    public static function random($type, $amount)
-    {
-       return Quesition::select('id')
-                        ->where('type', $type)
-                        ->inRandomOrder()
-                        ->limit($amount)
-                        ->get()
-                        ->pluck('id')
-                        ->toArray();
-    }
-
 }

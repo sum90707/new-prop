@@ -40,24 +40,4 @@ class Paper extends Model
         return $query->where('create_by', Auth::id());
         
     }
-
-    public static function buildPaperList($request)
-    {
-        $user = Auth::User();
-
-        $list = self::withTrashed()
-                    ->with([
-                        'createBy' => function($list) {
-                            $list->select('id', 'name', 'role_id');
-                        }
-                    ])
-                    ->select('id', 'name', 'introduce', 'create_by', 'deleted_at')
-                    ->orderBy('id');
-        
-        if($user->cannot('superuser', self::class)) {
-            $list->where('create_by', $user->id);
-        }
-
-        return self::dataTableSearch($list, $request->input(), ['id', 'name', 'introduce']);
-    }
 }

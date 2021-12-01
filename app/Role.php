@@ -18,23 +18,4 @@ class Role extends Model
         return $this->belongsToMany('App\Menu', 'role_menu');
     }
 
-    public static function rolesWithOutSuper($table, $columns)
-    {
-        $roles = self::whereHas('menus', function($roles) use ($table) {
-                        $roles->where('is_super_user', false)
-                              ->where('name', $table);
-                    })
-                    ->distinct()
-                    ->get()
-                    ->pluck(...$columns)
-                    ->toArray();
-        
-        return $roles;
-    }
-
-    public static function getRoleName(self $role)
-    {
-        return $role->name;
-    }
-
 }

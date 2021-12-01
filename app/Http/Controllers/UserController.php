@@ -4,27 +4,24 @@ namespace App\Http\Controllers;
 
 use Auth;
 use App\User;
-use App\Role;
-use App\Traits\Permission;
+use App\Services\UserService;
+use App\Traits\DataTableSearch;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
 
 
 class UserController extends Controller
 {
-    use Permission;
+    use DataTableSearch;
 
-    const MENU = 'User';
-    private $user;
+    private $userService;
 
     public function __construct()
     {
-        $this->user = new User;
+        $this->userService = new UserService;
     }
     
     public function index(Request $request)
@@ -34,13 +31,19 @@ class UserController extends Controller
 
     public function profile(Request $request)
     {
-        $user = User::select('name', 'email', 'language', 'role_id', 'introduce', 'mug_shot')
-                    ->where('id', Auth::User()->id)
-                    ->first()
-                    ->makeHidden(['role', 'role_id'])
-                    ->toArray();
-
-        return new JsonResponse($user);
+        $columns = ['name', 'email', 'role_name', 'language', 'introduce', 'mug_shot'];
+        $this->userService->getUser(Auth::User(), $columns);
+        try {
+            return new JsonResponse([
+                'message' => 'Operation successfully.',
+                'data' => $this->userService->getUser(Auth::User(), $columns)
+            ]);
+        }catch (\Throwable $th) { 
+            return new JsonResponse([
+                'message' => 'Operation fail.'
+            ], 400);
+        }
+        
     }
 
 
@@ -52,15 +55,13 @@ class UserController extends Controller
                                 Rule::in(array_keys(config('languages')))]
         ]);
 
+        $userData = $request->post('User');
+        
         try {
-            $user->fill($request->post('User'));
-
-            if ($user->isDirty()) {
-                $user->save();
-            }
+            $successfully = $this->userService->update($user, $userData);
 
             return new JsonResponse([
-                'message' => 'User updated successfully.'
+                'message' => 'User updated ' . ($successfully ? 'successfully .' : 'fail .')
             ]);
         } catch (\Throwable $th) {
             return new JsonResponse([
@@ -71,20 +72,16 @@ class UserController extends Controller
 
     public function list(Request $request)
     {
-        return User::buildUserList($request);
+        $list = $this->userService->list($request);
+        return self::dataTableSearch($list, $request->input(), ['name', 'email'], ['role', 'role_id']);
     }
 
     public function image(Request $request, User $user)
     {   
         try {
-
-            $imageName = md5(time() . rand(0,9999)) . '.' . request()->image->getClientOriginalExtension();
-            request()->image->move(public_path("upload/$user->id/"), $imageName);
-            $user->update(['mug_shot' => $imageName]);
-
             return new JsonResponse([ 
                 'message' => 'Mug shot upload successfully.',
-                'image' => asset("upload/" . Auth::id()) . '/' . $imageName
+                'image' => $this->userService->imageUploadSave(request()->image, $user)
             ]);
         } catch (\Throwable $th) {
             return new JsonResponse([ 
@@ -98,14 +95,10 @@ class UserController extends Controller
     public function status(Request $request, $id)
     {
         try { 
-            $user = User::withTrashed()
-                        ->find($id);
-
-            $user->trashed() ? $user->restore() : $user->delete();
 
             return new JsonResponse([ 
                 'message' => 'update successfully.',
-                'deleted' => $user->trashed()
+                'deleted' => $this->userService->status($id)
             ]);
                 
         } catch (\Throwable $th) { 
@@ -117,7 +110,7 @@ class UserController extends Controller
 
     public function auth(Request $request, User $user)
     {
-        $allowAuths = Role::rolesWithoutSuper(User::getTableName(), ['id', 'name']);
+        $allowAuths = $this->userService->rolesWithoutSuper(['id', 'name']);
 
         request()->validate([
             'toggle' =>  ['required', 
@@ -125,15 +118,17 @@ class UserController extends Controller
         ]);
         
         try { 
-            $user->update(['role_id' => $request->toggle]);
+
+            $this->userService->update($user, ['role_id' => $request->toggle]);
+            $user = $this->userService->getUser($user);
 
             return new JsonResponse([ 
                 'message' => "update successfully. </br>
-                              $user->name is " . $user->role->name . ' now !' ,
+                             " . $user['name'] . " is " . $user['role_name'] . " now !" ,
             ]);
         } catch (\Throwable $th) { 
             return new JsonResponse([ 
-                'message' => 'Operation fail' . $th
+                'message' => 'Operation fail'
             ], 422);
         }
         
@@ -151,23 +146,16 @@ class UserController extends Controller
             ],
             'password' => 'required|string|min:6|confirmed'
         ]);
-
+        
         try { 
-
-            $updateUser = User::where('email', $request->email)->first();
-
-            $updateUser->forceFill([
-                'password' => Hash::make($request->password)
-            ])->setRememberToken(Str::random(60));
-            
-            $updateUser->save();
+            $this->userService->resetPassWord($request);
 
             return new JsonResponse([ 
-                'message' => "$updateUser->name update password successfully" ,
+                'message' => "update password successfully" ,
             ]);
         } catch (\Throwable $th) {
             return new JsonResponse([ 
-                'message' => 'Operation fail' . $th
+                'message' => 'Operation fail'
             ], 422);
         }
     }

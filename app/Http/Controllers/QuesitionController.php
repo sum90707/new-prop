@@ -6,6 +6,8 @@ use Auth;
 use Lang;
 use App\Option;
 use App\Quesition;
+use App\Repositories\QuesitionRepository;
+use App\Traits\DataTableSearch;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Validator;
@@ -13,6 +15,15 @@ use Illuminate\Validation\Rule;
 
 class QuesitionController extends Controller
 {
+    use DataTableSearch;
+
+    private $quesitionRepo;
+
+    public function __construct()
+    {
+        $this->quesitionRepo = new QuesitionRepository;
+    }
+
     public function index(Request $request)
     {
         return view('quesition.index');
@@ -29,10 +40,12 @@ class QuesitionController extends Controller
             'Quesition.type' => [Rule::in(array_keys(config('quesition.types')))],
         ]);
 
-        try {
-            $quesition = $request->post('Quesition');
-            $options = $request->post('Options');
+        $quesition = $request->post('Quesition');
+        $options = $request->post('Options');
 
+        
+        try {
+            
             $model = Quesition::create($quesition);
 
             if($options) {
@@ -51,7 +64,8 @@ class QuesitionController extends Controller
 
     public function list(Request $request)
     {
-        $list = Quesition::buildQuesitionList($request);
+        $list = $this->quesitionRepo->list();
+        $list = self::dataTableSearch($list, $request->input(), ['id', 'name', 'year', 'type', 'introduce']);
         self::translateType($list['data']);
 
         return $list;
@@ -105,16 +119,11 @@ class QuesitionController extends Controller
     private static function translateType(&$data)
     {
         $type = Lang::get('quesition.types');
-        try {
-            foreach($data as &$row)
-            { 
-                $row['type'] = [
-                    'type' => $row['type'],
-                    'lang' => $type[$row['type']]
-                ];   
-            }
-        } catch (\Throwable $th) {
-                return;
+        foreach($data as &$row) { 
+            $row['type'] = [
+                'type' => $row['type'],
+                'lang' => $type[$row['type']]
+            ];   
         }
     }
     

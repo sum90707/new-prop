@@ -6,20 +6,26 @@ use Auth;
 use App\User;
 use App\Paper;
 use App\Quesition;
+use App\Repositories\QuesitionRepository;
+use App\Repositories\PaperRepository;
+use App\Traits\DataTableSearch;
+use App\Traits\SortoutDropdown;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
-use App\Traits\SortoutDropdown;
 
 class PaperController extends Controller
 {
-    
+    use DataTableSearch;
     use SortoutDropdown;
 
+    private $paperRepo;
+    private $quesitionRepo;
 
     public function __construct()
     {
-
+        $this->paperRepo = new PaperRepository;
+        $this->quesitionRepo = new QuesitionRepository;
     }
 
     public function index(Request $request)
@@ -35,16 +41,10 @@ class PaperController extends Controller
             'Paper.introduce' => 'required|max:1000'
         ]);
 
-        
+        $paper = $request->post('Paper');
         try {
-            
-            $paper = $request->post('Paper');
 
-            $model = new Paper;
-            $model->fill($paper);
-            $model->create_by = Auth::id();
-
-            $model->save();
+            $this->paperRepo->creatWithUser($paper, Auth::id());
 
             return new JsonResponse([
                 'message' => 'save successfully'
@@ -58,16 +58,14 @@ class PaperController extends Controller
 
     public function list(Request $request)
     {
-        return Paper::buildPaperList($request);
+        $list = $this->paperRepo->list();
+        return self::dataTableSearch($list, $request->input(), ['id', 'name', 'introduce']);
     }
 
     public function dropdwon(Request $request)
     {
-        $papers = Paper::select('id', 'name')
-                        ->visible()
-                        ->get();
-
-        return self::SortoutDropdown($papers, 'id', 'name');
+        $papers = $this->paperRepo->list();
+        return self::SortoutDropdown($papers->get(), 'id', 'name');
     }
 
     public function status(Request $request, $id)
@@ -140,16 +138,16 @@ class PaperController extends Controller
 
         $amount = $request->post('Import');
         $ids = array();
+        $types = array(
+            'tf' => 0,
+            'mutltiple' => 1
+        );
 
         try {
-            if ($amount['tf']) {
-                $ids = array_merge($ids, Quesition::random(0, $amount['tf']));
-            }
 
-            if($amount['mutltiple']) {
-                $ids = array_merge($ids, Quesition::random(1, $amount['mutltiple']));
+            foreach($types as $key => $type) {
+                $ids = array_merge($ids, $this->quesitionRepo->random($type, $amount[$key]));
             }
-
             sort($ids);
             $paper->quesitions()->sync($ids);
 

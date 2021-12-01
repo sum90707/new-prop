@@ -2,9 +2,7 @@
 
 namespace App;
 
-use DataTables;
 use App\Role;
-use App\Traits\Permission;
 use App\Traits\DataTableSearch;
 use App\Traits\EloquentGetTableNameTrait;
 use Illuminate\Notifications\Notifiable;
@@ -15,7 +13,6 @@ class User extends Authenticatable
 {
     use Notifiable;
     use SoftDeletes;
-    use Permission;
     use DataTableSearch;
     use EloquentGetTableNameTrait;
 
@@ -80,22 +77,5 @@ class User extends Authenticatable
                     ->get();
         
         return $authsGroup;
-    }
-
-    public static function buildUserList($request)
-    {   
-        $list = self::withTrashed()
-                    ->select('id', 'name', 'email', 'language' , 'api_token' , 'role_id', 'deleted_at')
-                    ->with([
-                        'role.menus' => function($list) {
-                            $list->select('name', 'is_super_user');
-                        }
-                    ])
-                    ->whereHas('role.menus', function($list) {
-                        $list->where('name', self::getTableName())
-                            ->where('is_super_user', false);
-                    });
-        
-        return self::dataTableSearch($list, $request->input(), ['name', 'email'], ['role', 'role_id']);
     }
 }

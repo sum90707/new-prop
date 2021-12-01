@@ -10,4 +10,14 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
+    public function statusToggle($model, $index)
+    {
+        $model = $model->withTrashed()
+                       ->find($index);
+
+        $model->trashed() ? $model->restore() : $model->delete();
+
+        return $model->trashed();
+    }
 }

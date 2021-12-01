@@ -6,7 +6,6 @@ use Auth;
 use App\User;
 use App\Quiz;
 use App\Repositories\UserRepository;
-use App\Repositories\QuizRepository;
 use App\Repositories\UserQuizRepository;
 use App\Services\QuizService;
 use Illuminate\Http\Request;
@@ -18,14 +17,12 @@ class QuizController extends Controller
     use SortoutDropdown;
 
     private $userRepo;
-    private $quizRepo;
     private $userQuizRepo;
     private $quizService;
 
     public function __construct()
     {
         $this->userRepo = new UserRepository;
-        $this->quizRepo = new QuizRepository;
         $this->userQuizRepo = new UserQuizRepository;
         $this->quizService = new QuizService;
     }
