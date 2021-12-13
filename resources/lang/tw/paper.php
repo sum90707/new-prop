@@ -4,7 +4,7 @@ return [
     'title_create' => '新增試卷',
     'manage' => '試卷管理',
     'create' => '建立',
-    'name' => '名稱',
+    'name' => '試卷名稱',
     'status' => '狀態',
     'id' => '編號',
     'create_by' => '建立者',

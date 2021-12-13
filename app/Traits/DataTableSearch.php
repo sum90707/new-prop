@@ -22,11 +22,14 @@ trait DataTableSearch
     public static function dataTableSearch($query, $search = null, $columns = [], $hiddenColumns = [])
     {
         $query = $query->where(function ($subquery) use ($search, $columns){
-            if($search['search']['value']) {
-                foreach($columns as $column) {
-                    $subquery->orWhere($column, 'like', '%' . $search['search']['value'] . '%');
+            if( !empty($search)) {
+                if($search['search']['value']) {
+                    foreach($columns as $column) {
+                        $subquery->orWhere($column, 'like', '%' . $search['search']['value'] . '%');
+                    }
                 }
             }
+            
         })
         ->get()
         ->makeHidden($hiddenColumns);

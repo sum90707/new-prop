@@ -56,6 +56,41 @@ class QuizPolicy
         return $permission AND $permission->read;
     }
 
+    public function edit(User $user, Quiz $model = null)
+    {
+        
+        $permission = $user->role
+                           ->menus
+                           ->where('name', $this->model)
+                           ->first();
+
+        if($permission AND $permission->edit) {
+            if( is_null($model) ) {
+                return true;
+            }
+
+            return $user->id === $model->id;
+        }
+        return false;
+    }
+
+    public function delete(User $user, Quiz $model = null)
+    {
+        
+        $permission = $user->role
+                           ->menus
+                           ->where('name', $this->model)
+                           ->first();
+
+        if($permission AND $permission->delete) {
+            if( is_null($model) ) {
+                return true;
+            }
+            return $user->id === $model->create_by;
+        }
+        return false;
+    }
+
     public function take(User $user, Quiz $quiz)
     {
         $permission = $quiz->users

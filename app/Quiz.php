@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Auth;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\EloquentGetTableNameTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;

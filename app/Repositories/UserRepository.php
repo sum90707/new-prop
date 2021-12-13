@@ -26,8 +26,15 @@ class UserRepository
                              }
                          ])
                          ->first();
-                    
-        return $quizzes->score;
+
+
+        $quizzes = $quizzes->score->transform(function ($item, $key) use ($quizzes) {
+            return $item->quiz ?? null;
+        });
+
+        return $quizzes->filter(function ($item, $key) {
+             return !is_null($item); 
+        });
     }
 
     public function getById($user)

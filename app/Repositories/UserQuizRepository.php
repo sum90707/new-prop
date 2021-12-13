@@ -24,4 +24,24 @@ class UserQuizRepository
         return $quiz;
     }
 
+    public function getQuizzes($user, $quizId)
+    {
+        $quizzes = $this->userQuiz
+                     ->where('user_id', $user->id)
+                     ->where('quiz_id', $quizId)
+                     ->whereNull('detail');
+
+        return $quizzes;
+    }
+
+    public function createAndGet($userId, $quizId)
+    {
+        $model = $this->userQuiz->create([
+                    'user_id' => $userId,
+                    'quiz_id' => $quizId
+                ]);
+        
+        return $model;
+    }
+
 }

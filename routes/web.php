@@ -68,10 +68,13 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::prefix('quiz')->group(function() {
         Route::get('/', 'QuizController@index')->name('quiz.index')->middleware('can:read,App\Quiz');
+        Route::get('list', 'QuizController@list')->name('quiz.list')->middleware('can:edit,App\Quiz');
         Route::get('dropdown', 'QuizController@dropdown')->name('quiz.dropdown')->middleware('can:read,App\Quiz');
         
         Route::get('{quiz}', 'QuizController@get')->name('quiz.get')->middleware('can:take,quiz');
         Route::post('{quiz}/grade', 'QuizController@grade')->name('quiz.grade')->middleware('can:take,quiz');
+        Route::put('{quiz}/status', 'QuizController@status')->name('quiz.status')->middleware('can:delete,App\Quiz');
+        // ->middleware('can:delete,quiz');
         
 
         
