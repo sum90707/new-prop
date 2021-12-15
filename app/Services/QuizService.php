@@ -58,7 +58,7 @@ class QuizService
             $quiz = self::getQuizModel(...func_get_args());
         }
 
-        return $quiz;
+        return $quiz->first();
     }
 
     public function getQuizDataTable($user)
@@ -87,7 +87,7 @@ class QuizService
     {
         $quiz = self::getQuizModel(...func_get_args());
 
-        return $quiz ?? self::createQuize(...func_get_args());
+        return $quiz->isEmpty() ? self::createQuize(...func_get_args()) : $quiz;
     }
 
 

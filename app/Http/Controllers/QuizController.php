@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Auth;
 use App\User;
 use App\Quiz;
+use App\Jobs\Grade;
 use App\Repositories\UserRepository;
 use App\Repositories\QuizRepository;
 use App\Repositories\UserQuizRepository;
@@ -75,18 +76,24 @@ class QuizController extends Controller
 
         $answer = $request->post('Answer');
 
+        
         try {
-            $grade = $this->quizService->grade($answer);
-            $model = $this->quizService->getQuiz(Auth::User(), $quiz->id);
+            // $grade = $this->quizService->grade($answer);
+            // $model = $this->quizService->getQuiz(Auth::User(), $quiz->id);
 
-            $model->update([
-                'detail' => json_encode($grade),
-                'score' => $grade['percent']
+            // $model->update([
+            //     'detail' => json_encode($grade),
+            //     'score' => $grade['percent']
+            // ]);
+            dispatch((new Grade($answer, $quiz, Auth::User())));
+
+            return new JsonResponse([ 
+                'message' => 'Successfully handed in !',
             ]);
             
-            return new JsonResponse([ 
-                'message' => 'Successfully handed in ! Score : ' . $grade['percent'] . '/100',
-            ]);
+            // return new JsonResponse([ 
+            //     'message' => 'Successfully handed in ! Score : ' . $grade['percent'] . '/100',
+            // ]);
         } catch (\Throwable $th) {
             return new JsonResponse([ 
                 'message' => 'Operation fail !'

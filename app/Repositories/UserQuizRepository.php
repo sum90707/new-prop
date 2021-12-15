@@ -29,7 +29,8 @@ class UserQuizRepository
         $quizzes = $this->userQuiz
                      ->where('user_id', $user->id)
                      ->where('quiz_id', $quizId)
-                     ->whereNull('detail');
+                     ->whereNull('detail')
+                     ->get();
 
         return $quizzes;
     }
