@@ -68,6 +68,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::prefix('quiz')->group(function() {
         Route::get('/', 'QuizController@index')->name('quiz.index')->middleware('can:read,App\Quiz');
+        Route::get('own', 'QuizController@own')->name('quiz.own')->middleware('can:read,App\Quiz');
         Route::get('list', 'QuizController@list')->name('quiz.list')->middleware('can:edit,App\Quiz');
         Route::get('dropdown', 'QuizController@dropdown')->name('quiz.dropdown')->middleware('can:read,App\Quiz');
  

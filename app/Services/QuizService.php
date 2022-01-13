@@ -73,6 +73,11 @@ class QuizService
         return $quizzes;
     }
 
+    public function getOwnQuizDataTable($user)
+    {
+        return $this->userQuizRepo->getByUser($user);
+    }
+
     private function getQuizModel($user, $quizId)
     {
         return $this->userQuizRepo->getQuizzes(...func_get_args());

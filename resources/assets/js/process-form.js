@@ -88,6 +88,7 @@ class FormSave extends AlertMsg {
         this.errorFields = config.errorFields ? config.errorFields : null;
         this.callback = config.callback ? config.callback : function() {};
         this.before = config.before ? config.before : function() {};
+        this.data = null;
 
         this.$btn.bind('click', function() {
             this.saveForm();
@@ -102,7 +103,7 @@ class FormSave extends AlertMsg {
 			headers: {
 				'X-CSRF-TOKEN': this.token
 			},
-			data: this.$form.serializeArray(),
+			data: this.data ? this.data : this.$form.serializeArray(),
 			success: function success(json, status, xhr) {
                 this.ajaxSussMsg(xhr);
                 this.callback();

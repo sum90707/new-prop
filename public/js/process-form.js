@@ -17572,6 +17572,7 @@ var FormSave = function (_AlertMsg2) {
         _this2.errorFields = config.errorFields ? config.errorFields : null;
         _this2.callback = config.callback ? config.callback : function () {};
         _this2.before = config.before ? config.before : function () {};
+        _this2.data = null;
 
         _this2.$btn.bind('click', function () {
             this.saveForm();
@@ -17589,7 +17590,7 @@ var FormSave = function (_AlertMsg2) {
                 headers: {
                     'X-CSRF-TOKEN': this.token
                 },
-                data: this.$form.serializeArray(),
+                data: this.data ? this.data : this.$form.serializeArray(),
                 success: function success(json, status, xhr) {
                     this.ajaxSussMsg(xhr);
                     this.callback();

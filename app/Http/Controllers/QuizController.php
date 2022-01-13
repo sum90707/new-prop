@@ -68,6 +68,13 @@ class QuizController extends Controller
         return self::dataTableSearch($list, $request->input(), ['id', 'name', 'introduce']);
     }
 
+    public function own(Request $request)
+    {
+        $list = $this->quizService->getOwnQuizDataTable(Auth::User());
+
+        return self::dataTableSearch($list, $request->input(), ['id', 'score'], ['detail', 'quiz_id', 'user_id', 'create_at']);
+    }
+
     public function grade(Request $request, Quiz $quiz)
     {
         request()->validate([

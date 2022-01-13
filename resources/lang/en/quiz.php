@@ -12,4 +12,7 @@ return [
     'introduce' => 'description',
     'create_by' => 'Create By',
     'paper' => 'Test Paper',
+    'own_exam' => 'Own Exam',
+    'score' => 'Score',
+    'finish_at' => 'Finish At',
 ];

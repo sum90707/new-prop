@@ -19,15 +19,23 @@
 
 <div class="ui top attached tabular menu quesition">
     @can('edit', 'App\Quiz')
-        <a class="item active" data-tab="list">@lang('quiz.list')</a>
+        <a class="item" data-tab="list">@lang('quiz.list')</a>
     @endcan
     @can('read', 'App\Quiz')
-        <a class="item" data-tab="quiz">@lang('quiz.start_quiz')</a>
+        <a class="item active" data-tab="own">@lang('quiz.own_exam')</a>
+    @endcan
+    @can('read', 'App\Quiz')
+        <a class="item" data-tab="quiz" id="exam-tab">@lang('quiz.start_quiz')</a>
     @endcan
 </div>
 @can('read', 'App\Quiz')
-    <div class="ui bottom attached tab segment active" data-tab="list">
+    <div class="ui bottom attached tab segment" data-tab="list">
         @include('quiz.list')
+    </div>
+@endcan
+@can('read', 'App\Quiz')
+    <div class="ui bottom attached tab segment active" data-tab="own">
+        @include('quiz.own')
     </div>
 @endcan
 @can('edit', 'App\Quiz')

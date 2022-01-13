@@ -12,4 +12,7 @@ return [
     'introduce' => '說明',
     'create_by' => '建立者',
     'paper' => '考券',
+    'own_exam' => '擁有的考試',
+    'score' => '分數',
+    'finish_at' => '完成時間',
 ];

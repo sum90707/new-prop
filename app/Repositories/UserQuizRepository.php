@@ -35,6 +35,16 @@ class UserQuizRepository
         return $quizzes;
     }
 
+    public function getByUser($user)
+    {
+        $query = $this->userQuiz
+                      ->with(['quiz' => function($query) {
+                          $query->withTrashed();
+                      }])
+                      ->where('user_id', $user->id);
+        return  $query;   
+    }
+
     public function createAndGet($userId, $quizId)
     {
         $model = $this->userQuiz->create([
