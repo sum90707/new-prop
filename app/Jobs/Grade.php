@@ -22,9 +22,14 @@ class Grade implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($answer, $quiz, $user)
+    public function __construct(
+        QuizService $quizService,
+        $answer,
+        $quiz,
+        $user
+    )
     {
-        $this->quizService = new QuizService;
+        $this->quizService = $quizService;
         $this->answer = $answer;
         $this->quiz = $quiz;
         $this->user = $user;

@@ -2,27 +2,30 @@
 
 namespace App\Services;
 
-use App\Repositories\UserRepository;
-use App\Repositories\QuizRepository;
-use App\Repositories\PaperRepository;
-use App\Repositories\QuesitionRepository;
 use App\Repositories\UserQuizRepository;
+
+use App\Repositories\Interfaces\UserRepositoryInterface;
+use App\Repositories\Interfaces\QuizRepositoryInterface;
+use App\Repositories\Interfaces\QuesitionRepositoryInterface;
+use App\Repositories\Interfaces\UserQuizRepositoryInterface;
 
 class QuizService
 {
     private $userRepo;
     private $quizRepo;
-    private $paperRepo;
     private $qeusitionRepo;
     private $userQuizRepo;
 
-    public function __construct() 
-    {
-        $this->userRepo = new UserRepository;
-        $this->quizRepo = new QuizRepository;
-        $this->paperRepo = new PaperRepository;
-        $this->qeusitionRepo = new QuesitionRepository;
-        $this->userQuizRepo = new UserQuizRepository;
+    public function __construct(
+        UserRepositoryInterface $userRepo,
+        QuizRepositoryInterface $quizRepo,
+        QuesitionRepositoryInterface $qeusitionRepo,
+        UserQuizRepositoryInterface $userQuizRepo
+    ) {
+        $this->userRepo = $userRepo;
+        $this->quizRepo = $quizRepo;
+        $this->qeusitionRepo = $qeusitionRepo;
+        $this->userQuizRepo = $userQuizRepo;
     }
 
     public function grade($answer)
@@ -41,8 +44,8 @@ class QuizService
 
     public function getQuizzes($user)
     {
-        if($user->can('superuser', 'App\Quiz')) {
-            $quizzes = $this->quizRepo->getSPQuizzes($user);
+        if ($user->can('superuser', 'App\Quiz')) {
+            $quizzes = $this->quizRepo->getSPQuizzes();
         } else {
             $quizzes = $this->userRepo->getQuizzes($user);
         }
@@ -52,7 +55,7 @@ class QuizService
 
     public function getQuiz($user, $quizId)
     {
-        if($user->can('superuser', 'App\Quiz')) {
+        if ($user->can('superuser', 'App\Quiz')) {
             $quiz = self::getOrCreateQuizModel(...func_get_args());
         } else {
             $quiz = self::getQuizModel(...func_get_args());
@@ -63,7 +66,7 @@ class QuizService
 
     public function getQuizDataTable($user)
     {
-        if($user->can('superuser', 'App\Quiz')) {
+        if ($user->can('superuser', 'App\Quiz')) {
             $quizzes = $this->quizRepo->list();
         } else {
             $ids = self::getQuizId($user);
@@ -98,7 +101,7 @@ class QuizService
 
     private function getCorrect($quesitionIDs)
     {
-       return $this->qeusitionRepo->getAndPluck($quesitionIDs, 'id', 'answer'); 
+        return $this->qeusitionRepo->getAndPluck($quesitionIDs, 'id', 'answer');
     }
 
     private function checkCorrect($answers, $correct)
@@ -106,8 +109,8 @@ class QuizService
         $right = array();
         $wrong = array();
 
-        foreach($answers as $id => $answer) {
-            if($answer == $correct[$id]) {
+        foreach ($answers as $id => $answer) {
+            if ($answer == $correct[$id]) {
                 array_push($right, $id);
             } else {
                 array_push($wrong, $id);

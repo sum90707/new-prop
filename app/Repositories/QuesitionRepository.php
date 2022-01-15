@@ -3,8 +3,9 @@
 namespace App\Repositories;
 
 use App\Quesition;
+use App\Repositories\Interfaces\QuesitionRepositoryInterface;
 
-class QuesitionRepository
+class QuesitionRepository implements QuesitionRepositoryInterface
 {
     private $paper;
 
@@ -27,7 +28,7 @@ class QuesitionRepository
         return $this->quesition
                     ->withTrashed()
                     ->with([
-                        'options' => function($list) {
+                        'options' => function ($list) {
                             $list->select('quesition_id', 'order', 'introduce')
                                  ->orderBy('order', 'ASC');
                         }
@@ -38,7 +39,7 @@ class QuesitionRepository
 
     public function random($type, $amount)
     {
-       return $this->quesition
+        return $this->quesition
                    ->select('id')
                    ->where('type', $type)
                    ->inRandomOrder()
@@ -47,5 +48,4 @@ class QuesitionRepository
                    ->pluck('id')
                    ->toArray();
     }
-
 }

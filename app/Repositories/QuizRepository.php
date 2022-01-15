@@ -3,8 +3,9 @@
 namespace App\Repositories;
 
 use App\Quiz;
+use App\Repositories\Interfaces\QuizRepositoryInterface;
 
-class QuizRepository
+class QuizRepository implements QuizRepositoryInterface
 {
     private $quiz;
 
@@ -23,10 +24,10 @@ class QuizRepository
         return $this->quiz
                     ->withTrashed()
                     ->with([
-                        'createBy' => function($list) {
+                        'createBy' => function ($list) {
                             $list->select('id', 'name', 'role_id');
                         },
-                        'paper'  => function($list) {
+                        'paper'  => function ($list) {
                             $list->select('id', 'name', 'introduce');
                         }
                     ])
@@ -39,10 +40,10 @@ class QuizRepository
         return $this->quiz
                     ->withTrashed()
                     ->with([
-                        'createBy' => function($list) {
+                        'createBy' => function ($list) {
                             $list->select('id', 'name', 'role_id');
                         },
-                        'paper'  => function($list) {
+                        'paper'  => function ($list) {
                             $list->select('id', 'name', 'introduce');
                         }
                     ])
@@ -50,5 +51,4 @@ class QuizRepository
                     ->select('id', 'name', 'introduce', 'create_by', 'deleted_at', 'paper_id')
                     ->orderBy('id');
     }
-
 }

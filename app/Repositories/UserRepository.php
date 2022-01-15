@@ -3,8 +3,9 @@
 namespace App\Repositories;
 
 use App\User;
+use App\Repositories\Interfaces\UserRepositoryInterface;
 
-class UserRepository
+class UserRepository implements UserRepositoryInterface
 {
     private $user;
 
@@ -18,7 +19,7 @@ class UserRepository
         $quizzes =  $this->user
                          ->where('id', $user->id)
                          ->with([
-                             'score' => function($quizzes) use($user) {
+                             'score' => function ($quizzes) use ($user) {
                                  $quizzes->where('user_id', $user->id)
                                          ->whereNull('score')
                                          ->whereNull('detail')
@@ -33,14 +34,14 @@ class UserRepository
         });
 
         return $quizzes->filter(function ($item, $key) {
-             return !is_null($item); 
+            return !is_null($item);
         });
     }
 
-    public function getById($user)
+    public function getById($id)
     {
         return $this->user
-                    ->find($user);
+                    ->find($id);
     }
 
     public function getWithTrashById($user)
@@ -56,22 +57,22 @@ class UserRepository
     }
 
     public function buildUserList($request)
-    {   
+    {
         $list = $this->user
                      ->withTrashed()
-                     ->select('id', 'name', 'email', 'language' , 'api_token' , 'role_id', 'deleted_at')
-                     ->whereHas('role.menus', function($list) {
-                         $list->where('name',  $this->user->getTableName())
+                     ->select('id', 'name', 'email', 'language', 'api_token', 'role_id', 'deleted_at')
+                     ->whereHas('role.menus', function ($list) {
+                         $list->where('name', $this->user->getTableName())
                              ->where('is_super_user', false);
                      });
         
         return $list;
     }
 
-    public function getByColumn($column, $index)
+    public function getByColumn($column, $value)
     {
         return $this->user
-                    ->where($column, $index)
+                    ->where($column, $value)
                     ->firstOrFail();
     }
 
@@ -91,5 +92,4 @@ class UserRepository
     {
         return $this->user->getTableName();
     }
-
 }

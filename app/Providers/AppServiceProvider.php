@@ -23,6 +23,15 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $mapList = array(
+            'UserRepositoryInterface' => 'UserRepository',
+            'QuizRepositoryInterface' => 'QuizRepository',
+            'QuesitionRepositoryInterface' => 'QuesitionRepository',
+            'UserQuizRepositoryInterface' => 'UserQuizRepository'
+        );
+
+        foreach ($mapList as $intreface => $entity) {
+            $this->app->bind("App\Repositories\Interfaces\\$intreface", "App\Repositories\\$entity");
+        }
     }
 }

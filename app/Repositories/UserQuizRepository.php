@@ -2,9 +2,10 @@
 
 namespace App\Repositories;
 
+use App\Repositories\Interfaces\UserQuizRepositoryInterface;
 use App\UserQuiz;
 
-class UserQuizRepository
+class UserQuizRepository implements UserQuizRepositoryInterface
 {
     private $userQuiz;
 
@@ -38,11 +39,11 @@ class UserQuizRepository
     public function getByUser($user)
     {
         $query = $this->userQuiz
-                      ->with(['quiz' => function($query) {
+                      ->with(['quiz' => function ($query) {
                           $query->withTrashed();
                       }])
                       ->where('user_id', $user->id);
-        return  $query;   
+        return  $query;
     }
 
     public function createAndGet($userId, $quizId)
@@ -54,5 +55,4 @@ class UserQuizRepository
         
         return $model;
     }
-
 }

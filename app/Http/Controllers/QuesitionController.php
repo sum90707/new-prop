@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
 use Lang;
-use App\Option;
 use App\Quesition;
 use App\Repositories\QuesitionRepository;
 use App\Traits\DataTableSearch;
@@ -31,7 +29,6 @@ class QuesitionController extends Controller
 
     public function create(Request $request)
     {
-
         request()->validate([
             'Quesition.name' => 'required|max:30',
             'Quesition.year' => 'required|regex:/^[0-9\s]+$/i',
@@ -45,10 +42,9 @@ class QuesitionController extends Controller
 
         
         try {
-            
             $model = Quesition::create($quesition);
 
-            if($options) {
+            if ($options) {
                 $model->options()->createMany($options);
             }
 
@@ -74,10 +70,8 @@ class QuesitionController extends Controller
     public function type(Request $request)
     {
         try {
-
             $blade = config('quesition.types')[$request->trigger];
             return view("quesition.$blade");
-            
         } catch (\Throwable $th) {
             return new JsonResponse([
                 'message' => 'Operation fail'
@@ -87,19 +81,18 @@ class QuesitionController extends Controller
 
     public function status(Request $request, $id)
     {
-        try { 
+        try {
             $quesition = Quesition::withTrashed()
                         ->find($id);
 
             $quesition->trashed() ? $quesition->restore() : $quesition->delete();
 
-            return new JsonResponse([ 
+            return new JsonResponse([
                 'message' => 'update successfully.',
                 'deleted' => $quesition->trashed()
             ]);
-                
-        } catch (\Throwable $th) { 
-            return new JsonResponse([ 
+        } catch (\Throwable $th) {
+            return new JsonResponse([
                 'message' => 'Operation fail'
             ], 422);
         }
@@ -107,11 +100,10 @@ class QuesitionController extends Controller
 
     public function get(Request $request, Quesition $quesition)
     {
-        
         $quesition = array($quesition->toArray());
         self::translateType($quesition);
 
-        return new JsonResponse([ 
+        return new JsonResponse([
             'data' => $quesition
         ]);
     }
@@ -119,12 +111,11 @@ class QuesitionController extends Controller
     private static function translateType(&$data)
     {
         $type = Lang::get('quesition.types');
-        foreach($data as &$row) { 
+        foreach ($data as &$row) {
             $row['type'] = [
                 'type' => $row['type'],
                 'lang' => $type[$row['type']]
-            ];   
+            ];
         }
     }
-    
 }

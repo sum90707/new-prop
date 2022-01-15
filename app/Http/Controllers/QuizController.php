@@ -25,12 +25,13 @@ class QuizController extends Controller
     private $userQuizRepo;
     private $quizService;
 
-    public function __construct()
-    {
+    public function __construct(
+        QuizService $quizService
+    ) {
         $this->userRepo = new UserRepository;
         $this->quizRepo = new QuizRepository;
         $this->userQuizRepo = new UserQuizRepository;
-        $this->quizService = new QuizService;
+        $this->quizService = $quizService;
     }
 
     public function index(Request $request)
@@ -45,12 +46,12 @@ class QuizController extends Controller
                                ->quesitions
                                ->makeHidden(['answer']);
 
-            return new JsonResponse([ 
+            return new JsonResponse([
                 'message' => 'save quesitions successfully.',
                 'data' => $quesitions
             ]);
-         } catch (\Throwable $th) {
-            return new JsonResponse([ 
+        } catch (\Throwable $th) {
+            return new JsonResponse([
                 'message' => 'Operation fail !' . $th->getMessage()
             ], 422);
         }
@@ -92,17 +93,17 @@ class QuizController extends Controller
             //     'detail' => json_encode($grade),
             //     'score' => $grade['percent']
             // ]);
-            dispatch((new Grade($answer, $quiz, Auth::User())));
+            dispatch((new Grade($this->quizService, $answer, $quiz, Auth::User())));
 
-            return new JsonResponse([ 
+            return new JsonResponse([
                 'message' => 'Successfully handed in !',
             ]);
             
-            // return new JsonResponse([ 
+            // return new JsonResponse([
             //     'message' => 'Successfully handed in ! Score : ' . $grade['percent'] . '/100',
             // ]);
         } catch (\Throwable $th) {
-            return new JsonResponse([ 
+            return new JsonResponse([
                 'message' => 'Operation fail !'
             ], 422);
         }
@@ -110,22 +111,22 @@ class QuizController extends Controller
 
     public function status(Request $request, $id)
     {
-        try { 
+        try {
             $model = Quiz::withTrashed()
                           ->find($id);
 
-            if($request->user()->can('delete', $model)) {
+            if ($request->user()->can('delete', $model)) {
                 $model->trashed() ? $model->restore() : $model->delete();
             } else {
                 throw  new \Exception('This action is unauthorized.');
             }
 
-            return new JsonResponse([ 
+            return new JsonResponse([
                 'message' => 'update successfully.',
                 'deleted' => $model->trashed()
             ]);
         } catch (\Throwable $th) {
-            return new JsonResponse([ 
+            return new JsonResponse([
                 'message' => 'Operation fail !' .$th->getMessage()
             ], 422);
         }
