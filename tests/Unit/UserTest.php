@@ -74,7 +74,7 @@ class UserTest extends TestCase
             'user/image/' . $create->id,
             ['image' => UploadedFile::fake()->image('file.png')]
         )->decodeResponseJson();
-        dd($response);
-        Storage::disk('local')->assertExists("/Users/linhongmin/Desktop/myPHP/new-prop/public/upload/" . '/file.jpg');
+
+        Storage::disk('local')->assertExists('/Users/linhongmin/Desktop/myPHP/new-prop/public/upload/42633fbd0c5183ae4d3cd5485b3cdb55.png');
     }
 }
